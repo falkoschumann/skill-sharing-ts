@@ -5,14 +5,19 @@ clean:
 
 distclean: clean
 	@echo "Cleaning up distribution..."
-	rm -rf node_modules
-	rm -rf packages/*/node_modules
+	@rm -rf dist
+	@rm -rf node_modules
 
 dist: build
 	@echo "Creating distribution..."
 
-build: version
+dev:
+	@echo "Starting development server..."
+	@deno run --allow-env --allow-ffi --allow-net --allow-read --allow-run --allow-sys --allow-write npm:vite
+
+build: version prepare
 	@echo "Building..."
+	@deno task build
 
 check: test
 	@echo "Checking code..."
@@ -29,3 +34,7 @@ test:
 
 version:
 	@echo "Using Deno version $(shell deno --version)"
+
+prepare:
+	@echo "Preparing..."
+	@deno install

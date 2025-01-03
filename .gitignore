@@ -1,3 +1,7 @@
+# Build
+build/
+dist/
+
 # Node.js
 node_modules/
 
@@ -5,3 +9,6 @@ node_modules/
 .vscode/
 .idea/
 *.iml
+
+# OS
+.DS_Store
