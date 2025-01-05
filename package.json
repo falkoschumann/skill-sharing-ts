@@ -9,9 +9,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "2.5.0",
     "bootstrap": "5.3.3",
-    "lit-html": "3.2.1",
-    "redux": "5.0.1"
+    "lit-html": "3.2.1"
   },
   "devDependencies": {
     "typescript": "5.6.2",
