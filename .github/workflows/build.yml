@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        deno-version: [ 'v2.0.x', 'v2.1.x', 'canary' ]
+        deno-version: ['v2.0.x', 'v2.1.x', 'canary']
     steps:
       - name: Checkout source code
         uses: actions/checkout@v4
