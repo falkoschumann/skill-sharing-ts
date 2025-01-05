@@ -1,0 +1,20 @@
+name: Build
+
+on:
+  push:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        deno-version: [ 'v2.0.x', 'v2.1.x', canary ]
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+      - name: Set up Deno
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: ${{ matrix.deno-version }}
+      - name: Build
+        run: make
