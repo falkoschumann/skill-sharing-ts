@@ -1,3 +1,5 @@
+// Copyright (c) 2024 Falko Schumann. All rights reserved. MIT license.
+
 /**
  * Contains a pattern to implement custom elements with
  * [lit-html](https://lit.dev/docs/libraries/standalone-templates/).
