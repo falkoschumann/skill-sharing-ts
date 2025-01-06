@@ -3,7 +3,12 @@
 import { assertEquals } from '@std/assert';
 
 import { createStore } from '../../src/application/store.ts';
-import { talksUpdated } from '../../src/application/talks_slice.ts';
+import {
+  addComment,
+  deleteTalk,
+  submitTalk,
+  talksUpdated,
+} from '../../src/application/talks_slice.ts';
 import { Talk } from '../../src/domain/talks.ts';
 import { UserRepository } from '../../src/infrastructure/user_repository.ts';
 import { TalksApi } from '../../src/infrastructure/talks_api.ts';
@@ -14,6 +19,48 @@ Deno.test('Initializes talks with empty array', () => {
   const talks = store.getState().talks;
 
   assertEquals(talks, []);
+});
+
+Deno.test('Submits talk', async () => {
+  const { store, talksApi } = configure();
+  const talksSubmitted = talksApi.trackTalksSubmitted();
+
+  await store.dispatch(submitTalk({
+    title: 'title-1',
+    summary: 'summary-1',
+  }));
+
+  assertEquals(talksSubmitted.data, [{
+    title: 'title-1',
+    presenter: 'Anon',
+    summary: 'summary-1',
+  }]);
+});
+
+Deno.test('Adds comment', async () => {
+  const { store, talksApi } = configure();
+  const commentsAdded = talksApi.trackCommentsAdded();
+
+  await store.dispatch(
+    addComment({
+      title: 'title-1',
+      comment: { author: 'author-1', message: 'message-1' },
+    }),
+  );
+
+  assertEquals(commentsAdded.data, [{
+    title: 'title-1',
+    comment: { author: 'author-1', message: 'message-1' },
+  }]);
+});
+
+Deno.test('Deletes talk', async () => {
+  const { store, talksApi } = configure();
+  const talksDeleted = talksApi.trackTalksDeleted();
+
+  await store.dispatch(deleteTalk({ title: 'title-1' }));
+
+  assertEquals(talksDeleted.data, [{ title: 'title-1' }]);
 });
 
 Deno.test('Handles talks updated', () => {
