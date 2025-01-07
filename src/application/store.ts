@@ -7,7 +7,30 @@ import talksReducer from './talks_slice.ts';
 import userReducer from './user_slice.ts';
 import { TalksApi } from '../infrastructure/talks_api.ts';
 
-export const store = createStore();
+// TODO Use default store instead of nulled store
+//export const store = createStore();
+
+const talksApi = TalksApi.createNull();
+export const store = createStore(
+  talksApi,
+  UserRepository.createNull(),
+);
+setTimeout(() =>
+  talksApi.simulateMessage([{
+    title: 'Foobar',
+    presenter: 'Anon',
+    summary: 'Lorem ipsum.',
+    comments: [
+      {
+        'author': 'Bob',
+        'message': 'Great!',
+      },
+      {
+        'author': 'Anon',
+        'message': 'Thanks!',
+      },
+    ],
+  }]), 2000);
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

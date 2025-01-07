@@ -2,12 +2,18 @@
 
 import { html } from 'lit-html';
 
-import { Component } from './components.ts';
+import { RootState } from '../application/store.ts';
+import { User } from '../domain/user.ts';
+import { Container } from './components.ts';
 
-class UserFieldComponent extends Component {
+class UserFieldComponent extends Container<RootState, User | undefined> {
   constructor() {
-    super();
+    super(undefined);
     this.className = 'd-block mb-4';
+  }
+
+  override extractState(state: RootState): User {
+    return state.user;
   }
 
   getView() {
@@ -20,7 +26,7 @@ class UserFieldComponent extends Component {
           name="username"
           autocomplete="username"
           class="form-control"
-          value="Anon"
+          .value="${this?.getState()?.username}"
         />
       </div>
     `;

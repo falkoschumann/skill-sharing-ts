@@ -2,31 +2,22 @@
 
 import { html } from 'lit-html';
 
+import { RootState } from '../application/store.ts';
 import { Talk } from '../domain/talks.ts';
-import { Component } from './components.ts';
+import { Container } from './components.ts';
 import './comments.ts';
 
-class TalksComponent extends Component {
+class TalksComponent extends Container<RootState, Talk[]> {
+  constructor() {
+    super([]);
+  }
+
+  override extractState(state: RootState): Talk[] {
+    return state.talks;
+  }
+
   getView() {
-    return html`${
-      [
-        {
-          'title': 'Foobar',
-          'presenter': 'Anon',
-          'summary': 'Lorem ipsum.',
-          'comments': [
-            {
-              'author': 'Bob',
-              'message': 'Great!',
-            },
-            {
-              'author': 'Anon',
-              'message': 'Thanks!',
-            },
-          ],
-        },
-      ].map((talk) => this.#talkTemplate(talk))
-    }`;
+    return html`${this.getState().map((talk) => this.#talkTemplate(talk))}`;
   }
 
   #talkTemplate(talk: Talk) {
