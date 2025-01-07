@@ -2,10 +2,11 @@
 
 import { html } from 'lit-html';
 
+import { addComment } from '../application/talks_slice.ts';
 import { Comment, Talk } from '../domain/talks.ts';
-import { Component } from './components.ts';
+import { Container } from './components.ts';
 
-class CommentsComponent extends Component {
+class CommentsComponent extends Container {
   #talk?: Talk;
 
   get talk() {
@@ -35,7 +36,7 @@ class CommentsComponent extends Component {
       )
     }
       </ul>
-      <form class="form">
+      <form @submit=${(e: SubmitEvent) => this.#formSubmitted(e)} class="form">
         <div class="mb-3">
           <input
             type="text"
@@ -48,6 +49,30 @@ class CommentsComponent extends Component {
         <button type="submit" class="btn btn-primary">Add comment</button>
       </form>
     `;
+  }
+
+  #formSubmitted(event: SubmitEvent) {
+    event.preventDefault();
+    const formElement = event.target as HTMLFormElement;
+    if (this.#validateForm(formElement)) {
+      this.#addComment(formElement);
+    }
+  }
+
+  #validateForm(form: HTMLFormElement): boolean {
+    form.reportValidity();
+    return form.checkValidity();
+  }
+
+  #addComment(form: HTMLFormElement) {
+    const formData = new FormData(form);
+    this.dispatch(
+      addComment({
+        title: formData.get('talkTitle') as string,
+        message: formData.get('comment') as string,
+      }),
+    );
+    form.reset();
   }
 }
 

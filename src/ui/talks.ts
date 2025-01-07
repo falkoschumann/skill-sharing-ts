@@ -6,12 +6,9 @@ import { RootState } from '../application/store.ts';
 import { Talk } from '../domain/talks.ts';
 import { Container } from './components.ts';
 import './comments.ts';
+import { deleteTalk } from '../application/talks_slice.ts';
 
 class TalksComponent extends Container<RootState, Talk[]> {
-  constructor() {
-    super([]);
-  }
-
   override extractState(state: RootState): Talk[] {
     return state.talks;
   }
@@ -27,6 +24,7 @@ class TalksComponent extends Container<RootState, Talk[]> {
           ${talk.title}
           <button
             class="btn btn-secondary btn-sm"
+            @click=${() => this.#deleteTalk(talk.title)}
           >
             Delete
           </button>
@@ -36,6 +34,10 @@ class TalksComponent extends Container<RootState, Talk[]> {
         <s-comments .talk=${talk}></s-comments>
       </section>
     `;
+  }
+
+  #deleteTalk(title: string) {
+    this.dispatch(deleteTalk({ title }));
   }
 }
 

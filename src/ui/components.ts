@@ -7,7 +7,13 @@
  * @module
  */
 
-import { Action, Store, Unsubscribe } from '@reduxjs/toolkit';
+import {
+  Action,
+  AsyncThunkAction,
+  Store,
+  UnknownAction,
+  Unsubscribe,
+} from '@reduxjs/toolkit';
 import { render, TemplateResult } from 'lit-html';
 
 export abstract class Component extends HTMLElement {
@@ -66,11 +72,11 @@ export abstract class Component extends HTMLElement {
 
 /**
  * Base class for custom elements that use a store.
- *
- * @template S The type of the global state.
- * @template C The type of the container's state.
  */
-export abstract class Container<S = unknown, C = unknown> extends Component {
+export abstract class Container<
+  RootState = unknown,
+  ContainerState = unknown,
+> extends Component {
   static #store: Store;
 
   /**
@@ -84,21 +90,13 @@ export abstract class Container<S = unknown, C = unknown> extends Component {
     Container.#store = store;
   }
 
-  #state: C;
+  #state!: ContainerState;
   #unsubscribeStore?: Unsubscribe;
-
-  /**
-   * Initializes this container with an initial state.
-   */
-  constructor(initialState: C) {
-    super();
-    this.#state = initialState;
-  }
 
   /**
    * Returns the current state of the container.
    */
-  getState(): C {
+  getState(): ContainerState {
     return this.#state;
   }
 
@@ -107,8 +105,13 @@ export abstract class Container<S = unknown, C = unknown> extends Component {
    *
    * @param action The action to dispatch.
    */
-  dispatch(action: Action) {
-    Container.#store.dispatch(action);
+  dispatch(
+    action:
+      | Action
+      | AsyncThunkAction<unknown, unknown, Record<string, unknown>>
+      | UnknownAction,
+  ) {
+    return Container.#store.dispatch(action as Action);
   }
 
   /**
@@ -138,7 +141,7 @@ export abstract class Container<S = unknown, C = unknown> extends Component {
    * updating the view.
    */
   override updateView() {
-    this.#state = this.extractState(Container.#store.getState() as S);
+    this.#state = this.extractState(Container.#store.getState() as RootState);
     super.updateView();
   }
 
@@ -150,7 +153,7 @@ export abstract class Container<S = unknown, C = unknown> extends Component {
    * @param state The state of the store.
    * @return The state for the container.
    */
-  extractState(state: S): C {
-    return state as unknown as C;
+  extractState(state: RootState): ContainerState {
+    return state as unknown as ContainerState;
   }
 }

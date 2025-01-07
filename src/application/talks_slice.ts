@@ -1,6 +1,6 @@
 // Copyright (c) 2024 Falko Schumann. All rights reserved. MIT license.
 
-import { Comment, Talk } from '../domain/talks.ts';
+import { Talk } from '../domain/talks.ts';
 import { TalksApi, TalksUpdatedEvent } from '../infrastructure/talks_api.ts';
 import { createAppSlice } from './create_app_slice.ts';
 import { User } from '../domain/user.ts';
@@ -38,11 +38,14 @@ const userSlice = createAppSlice({
     ),
     addComment: create.asyncThunk<
       void,
-      { title: string; comment: Comment },
+      { title: string; message: string },
       TalksThunkConfig
     >(
-      async ({ title, comment }, thunkAPI) => {
+      async ({ title, message }, thunkAPI) => {
         const { talksApi } = thunkAPI.extra;
+        const state = thunkAPI.getState() as { user: User };
+        const author = state.user.username;
+        const comment = { author, message };
         await talksApi.addComment({ title, comment });
       },
     ),

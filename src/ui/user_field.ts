@@ -5,10 +5,11 @@ import { html } from 'lit-html';
 import { RootState } from '../application/store.ts';
 import { User } from '../domain/user.ts';
 import { Container } from './components.ts';
+import { changeUser } from '../application/user_slice.ts';
 
 class UserFieldComponent extends Container<RootState, User | undefined> {
   constructor() {
-    super(undefined);
+    super();
     this.className = 'd-block mb-4';
   }
 
@@ -27,9 +28,15 @@ class UserFieldComponent extends Container<RootState, User | undefined> {
           autocomplete="username"
           class="form-control"
           .value="${this?.getState()?.username}"
+          @change=${(e: InputEvent) => this.#changeUser(e)}
         />
       </div>
     `;
+  }
+
+  #changeUser(event: InputEvent) {
+    const inputElement = event.target as HTMLInputElement;
+    this.dispatch(changeUser({ username: inputElement.value }));
   }
 }
 

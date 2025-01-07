@@ -13,6 +13,8 @@ import {
 import { Talk } from '../../src/domain/talks.ts';
 import { UserRepository } from '../../src/infrastructure/user_repository.ts';
 import { TalksApi } from '../../src/infrastructure/talks_api.ts';
+import { User } from '../../src/domain/user.ts';
+import { loadUser } from '../../src/application/user_slice.ts';
 
 Deno.test('Initializes talks with empty array', () => {
   const { store } = configure();
@@ -38,6 +40,7 @@ Deno.test('Receives talks', async () => {
 Deno.test('Submits talk', async () => {
   const { store, talksApi } = configure();
   const talksSubmitted = talksApi.trackTalksSubmitted();
+  await store.dispatch(loadUser());
 
   await store.dispatch(submitTalk({
     title: 'title-1',
@@ -52,14 +55,12 @@ Deno.test('Submits talk', async () => {
 });
 
 Deno.test('Adds comment', async () => {
-  const { store, talksApi } = configure();
+  const { store, talksApi } = configure({ user: { username: 'author-1' } });
   const commentsAdded = talksApi.trackCommentsAdded();
+  await store.dispatch(loadUser());
 
   await store.dispatch(
-    addComment({
-      title: 'title-1',
-      comment: { author: 'author-1', message: 'message-1' },
-    }),
+    addComment({ title: 'title-1', message: 'message-1' }),
   );
 
   assertEquals(commentsAdded.data, [{
@@ -106,9 +107,9 @@ function createTalk(
   return { title, presenter, summary, comments };
 }
 
-function configure() {
+function configure({ user }: { user?: User } = {}) {
   const talksApi = TalksApi.createNull();
-  const userRepository = UserRepository.createNull();
+  const userRepository = UserRepository.createNull(user);
   const store = createStore(talksApi, userRepository);
   return { store, talksApi };
 }

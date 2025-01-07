@@ -5,19 +5,24 @@ import { html } from 'lit-html';
 import { store } from '../application/store.ts';
 import { connect } from '../application/talks_slice.ts';
 import { loadUser } from '../application/user_slice.ts';
-import { Component, Container } from './components.ts';
+import { Container } from './components.ts';
 import './talk_form.ts';
 import './talks.ts';
 import './user_field.ts';
 
 Container.initStore(store);
-store.dispatch(loadUser());
-store.dispatch(connect());
 
-class SkillSharingComponent extends Component {
+class SkillSharingComponent extends Container {
   constructor() {
     super();
     this.className = 'd-block container py-4 px-3 mx-auto';
+  }
+
+  override connectedCallback() {
+    super.connectedCallback();
+
+    this.dispatch(loadUser());
+    this.dispatch(connect());
   }
 
   getView() {
