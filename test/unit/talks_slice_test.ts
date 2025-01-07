@@ -5,6 +5,7 @@ import { assertEquals } from '@std/assert';
 import { createStore } from '../../src/application/store.ts';
 import {
   addComment,
+  connect,
   deleteTalk,
   submitTalk,
   talksUpdated,
@@ -19,6 +20,19 @@ Deno.test('Initializes talks with empty array', () => {
   const talks = store.getState().talks;
 
   assertEquals(talks, []);
+});
+
+Deno.test('Receives talks', async () => {
+  const { store, talksApi } = configure();
+  const storeUpdated = new Promise<void>((resolve) =>
+    store.subscribe(() => resolve())
+  );
+  await store.dispatch(connect());
+
+  talksApi.simulateMessage([createTalk()]);
+  await storeUpdated;
+
+  assertEquals(store.getState().talks, [createTalk()]);
 });
 
 Deno.test('Submits talk', async () => {

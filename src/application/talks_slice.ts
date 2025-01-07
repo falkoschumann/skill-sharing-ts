@@ -1,7 +1,7 @@
 // Copyright (c) 2024 Falko Schumann. All rights reserved. MIT license.
 
 import { Comment, Talk } from '../domain/talks.ts';
-import { TalksApi } from '../infrastructure/talks_api.ts';
+import { TalksApi, TalksUpdatedEvent } from '../infrastructure/talks_api.ts';
 import { createAppSlice } from './create_app_slice.ts';
 import { User } from '../domain/user.ts';
 
@@ -13,7 +13,16 @@ const userSlice = createAppSlice({
   name: 'talks',
   initialState: [] as Talk[],
   reducers: (create) => ({
-    // TODO connect
+    connect: create.asyncThunk<void, void, TalksThunkConfig>(
+      async (_arg, thunkAPI) => {
+        const { talksApi } = thunkAPI.extra;
+        talksApi.addEventListener(TalksUpdatedEvent.TYPE, (event) => {
+          const talksUpdatedEvent = event as TalksUpdatedEvent;
+          thunkAPI.dispatch(talksUpdated(talksUpdatedEvent.talks));
+        });
+        await talksApi.connect();
+      },
+    ),
     submitTalk: create.asyncThunk<
       void,
       { title: string; summary: string },
@@ -53,6 +62,6 @@ const userSlice = createAppSlice({
   }),
 });
 
-export const { addComment, deleteTalk, submitTalk, talksUpdated } =
+export const { connect, submitTalk, addComment, deleteTalk, talksUpdated } =
   userSlice.actions;
 export default userSlice.reducer;

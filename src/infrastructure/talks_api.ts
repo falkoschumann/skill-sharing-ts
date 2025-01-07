@@ -113,6 +113,11 @@ export class TalksApi extends EventTarget {
     return OutputTracker.create<DeleteTalkCommand>(this, TALK_DELETED_EVENT);
   }
 
+  simulateMessage(talks: Talk[]) {
+    const json = JSON.stringify(talks);
+    this.#talksClient.simulateMessage(json);
+  }
+
   #handleMessage(event: MessageEvent) {
     const talks = JSON.parse(event.data);
     this.dispatchEvent(new TalksUpdatedEvent(talks));
