@@ -1,6 +1,9 @@
-# Project Name
+[![Build](https://github.com/falkoschumann/skill-sharing-ts/actions/workflows/build.yml/badge.svg)](https://github.com/falkoschumann/skill-sharing-ts/actions/workflows/build.yml)
 
-Project description
+# Skill Sharing
+
+Implementation of the final example project from the book
+[Eloquent JavaScript](https://eloquentjavascript.net).
 
 ## Installation
 
