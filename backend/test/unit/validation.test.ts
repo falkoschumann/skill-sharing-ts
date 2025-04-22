@@ -1,3 +1,4 @@
+import { IsInt, IsString } from 'class-validator';
 
 import { ConstraintViolationError, validate } from '../../src/util/validation';
 

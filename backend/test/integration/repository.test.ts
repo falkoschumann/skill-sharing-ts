@@ -1,3 +1,5 @@
+import * as fs from 'node:fs/promises';
+import * as path from 'node:path';
 
 import { Repository } from '../../src/infrastructure/repository';
 import { createTestTalkWithComment } from '../data/testdata';

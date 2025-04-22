@@ -1,3 +1,7 @@
+import { ClassConstructor, plainToInstance } from 'class-transformer';
+import { validateSync, ValidationError } from 'class-validator';
+
+export function validate<T extends object, V extends object>(
   cls: ClassConstructor<T>,
   value: V[],
 ): T[];
