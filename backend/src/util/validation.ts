@@ -3,6 +3,17 @@
 import { ClassConstructor, plainToInstance } from 'class-transformer';
 import { validateSync, ValidationError } from 'class-validator';
 
+export class ConstraintViolationError extends Error {
+  constructor(
+    target: object,
+    value: unknown,
+    public errors: ValidationError[],
+  ) {
+    super(createErrorMessage(target, value, errors));
+    this.name = 'ConstraintViolationError';
+  }
+}
+
 export function validate<T extends object, V extends object>(
   cls: ClassConstructor<T>,
   value: V[],
@@ -45,17 +56,6 @@ function validateArrayElement<T extends object>(
 
 function notUndefined<T>(value?: T): value is T {
   return value != null;
-}
-
-export class ConstraintViolationError extends Error {
-  constructor(
-    target: object,
-    value: unknown,
-    public errors: ValidationError[],
-  ) {
-    super(createErrorMessage(target, value, errors));
-    this.name = 'ConstraintViolationError';
-  }
 }
 
 function createErrorMessage<T>(
