@@ -21,7 +21,7 @@ describe('Repository', () => {
 
   describe('Find all', () => {
     it('Returns list of all talks', async () => {
-      const repository = Repository.create({ fileName: exampleFile });
+      const repository = new Repository({ fileName: exampleFile });
 
       const talks = await repository.findAll();
 
@@ -29,7 +29,7 @@ describe('Repository', () => {
     });
 
     it('Returns empty list when file does not exist', async () => {
-      const repository = Repository.create({ fileName: nonExistingFile });
+      const repository = new Repository({ fileName: nonExistingFile });
 
       const talks = await repository.findAll();
 
@@ -37,7 +37,7 @@ describe('Repository', () => {
     });
 
     it('Reports an error when file is corrupt', async () => {
-      const repository = Repository.create({ fileName: corruptedFile });
+      const repository = new Repository({ fileName: corruptedFile });
 
       const result = repository.findAll();
 
