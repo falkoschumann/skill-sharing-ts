@@ -1,3 +1,5 @@
+// Copyright (c) 2025 Falko Schumann. All rights reserved. MIT license.
+
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';

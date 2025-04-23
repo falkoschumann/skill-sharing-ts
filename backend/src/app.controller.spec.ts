@@ -1,3 +1,5 @@
+// Copyright (c) 2025 Falko Schumann. All rights reserved. MIT license.
+
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { AppController } from './app.controller';

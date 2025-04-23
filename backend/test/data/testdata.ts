@@ -1,3 +1,5 @@
+// Copyright (c) 2025 Falko Schumann. All rights reserved. MIT license.
+
 export function createTestTalk({
   title = 'Talk test title',
   presenter = 'Talk test presenter',

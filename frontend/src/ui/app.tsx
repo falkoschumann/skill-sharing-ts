@@ -1,3 +1,5 @@
+// Copyright (c) 2025 Falko Schumann. All rights reserved. MIT license.
+
 import "bootstrap/dist/js/bootstrap.bundle.js";
 import "bootstrap/dist/css/bootstrap.css";
 

@@ -1,10 +1,9 @@
 // @ts-check
 import eslint from '@eslint/js';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
+import headers from 'eslint-plugin-headers';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
-
-// TODO Configure headers
 
 export default tseslint.config(
   {
@@ -27,10 +26,22 @@ export default tseslint.config(
     },
   },
   {
+    plugins: {
+      headers,
+    },
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-floating-promises': 'warn',
       '@typescript-eslint/no-unsafe-argument': 'warn',
+      'headers/header-format': [
+        'error',
+        {
+          source: 'string',
+          style: 'line',
+          trailingNewlines: 2,
+          content: `Copyright (c) ${new Date().getUTCFullYear()} Falko Schumann. All rights reserved. MIT license.`,
+        },
+      ],
     },
   },
 );

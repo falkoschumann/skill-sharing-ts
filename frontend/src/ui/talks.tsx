@@ -1,3 +1,5 @@
+// Copyright (c) 2025 Falko Schumann. All rights reserved. MIT license.
+
 import { Talk } from "../domain/talks";
 
 export default function Talks({ talks }: { talks: Talk[] }) {
