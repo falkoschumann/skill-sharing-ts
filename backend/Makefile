@@ -2,6 +2,7 @@ all: dist check
 
 clean:
 	rm -rf dist
+	rm -rf testdata
 
 distclean: clean
 	rm -rf node_modules
