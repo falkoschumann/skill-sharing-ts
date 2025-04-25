@@ -1,29 +1,29 @@
 // Copyright (c) 2025 Falko Schumann. All rights reserved. MIT license.
 
-import * as fsPromise from 'node:fs/promises';
-import * as path from 'node:path';
+import * as fsPromise from "node:fs/promises";
+import * as path from "node:path";
 
-import { TalksService } from '../../src/application/talks_service';
-import { Talk } from '../../src/domain/talks';
-import { TalksRepository } from '../../src/infrastructure/talks_repository';
-import { createTestTalk } from '../data/testdata';
+import { TalksService } from "../../src/application/talks_service";
+import { Talk } from "../../src/domain/talks";
+import { TalksRepository } from "../../src/infrastructure/talks_repository";
+import { createTestTalk } from "../data/testdata";
 
 const TEST_FILE = path.resolve(
   __dirname,
-  '../../testdata/unit_talks_service.json',
+  "../../testdata/unit_talks_service.json",
 );
 
-describe('Talks service', () => {
+describe("Talks service", () => {
   beforeEach(async () => {
     await fsPromise.rm(TEST_FILE, { force: true });
   });
 
-  describe('Talks', () => {
-    it('Lists all talks', async () => {
+  describe("Talks", () => {
+    it("Lists all talks", async () => {
       const { service } = await configure({
         talks: [
-          createTestTalk({ title: 'Foo' }),
-          createTestTalk({ title: 'Bar' }),
+          createTestTalk({ title: "Foo" }),
+          createTestTalk({ title: "Bar" }),
         ],
       });
 
@@ -31,24 +31,24 @@ describe('Talks service', () => {
 
       expect(result).toEqual({
         talks: [
-          createTestTalk({ title: 'Foo' }),
-          createTestTalk({ title: 'Bar' }),
+          createTestTalk({ title: "Foo" }),
+          createTestTalk({ title: "Bar" }),
         ],
       });
     });
 
-    it('Finds talk by title', async () => {
+    it("Finds talk by title", async () => {
       const { service } = await configure({
         talks: [
-          createTestTalk({ title: 'Foo' }),
-          createTestTalk({ title: 'Bar' }),
+          createTestTalk({ title: "Foo" }),
+          createTestTalk({ title: "Bar" }),
         ],
       });
 
-      const result = await service.queryTalks({ title: 'Foo' });
+      const result = await service.queryTalks({ title: "Foo" });
 
       expect(result).toEqual({
-        talks: [createTestTalk({ title: 'Foo' })],
+        talks: [createTestTalk({ title: "Foo" })],
       });
     });
   });

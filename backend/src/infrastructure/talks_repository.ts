@@ -1,19 +1,19 @@
 // Copyright (c) 2025 Falko Schumann. All rights reserved. MIT license.
 
-import * as fsPromise from 'node:fs/promises';
-import * as path from 'node:path';
-import { Inject, Injectable } from '@nestjs/common';
-import { ConfigType, registerAs } from '@nestjs/config';
+import * as fsPromise from "node:fs/promises";
+import * as path from "node:path";
+import { Inject, Injectable } from "@nestjs/common";
+import { ConfigType, registerAs } from "@nestjs/config";
 
-import { Talk } from '../domain/talks';
-import { validate } from '../util/validation';
+import { Talk } from "../domain/talks";
+import { validate } from "../util/validation";
 
 export interface RepositoryConfiguration {
   fileName: string;
 }
 
-export const repositoryConfigurationFactory = registerAs('repository', () => ({
-  fileName: process.env.REPOSITORY_FILE_NAME || './data/talks.json',
+export const repositoryConfigurationFactory = registerAs("repository", () => ({
+  fileName: process.env.REPOSITORY_FILE_NAME || "./data/talks.json",
 }));
 
 @Injectable()
@@ -52,10 +52,10 @@ export class TalksRepository {
   async #load() {
     try {
       const { fileName } = this.#configuration;
-      const json = await fsPromise.readFile(fileName, 'utf-8');
+      const json = await fsPromise.readFile(fileName, "utf-8");
       return JSON.parse(json) as TalksDto;
     } catch (error) {
-      if ((error as NodeJS.ErrnoException).code === 'ENOENT') {
+      if ((error as NodeJS.ErrnoException).code === "ENOENT") {
         // No such file or directory
         return {};
       }
@@ -70,7 +70,7 @@ export class TalksRepository {
     await fsPromise.mkdir(dirName, { recursive: true });
 
     const json = JSON.stringify(talks);
-    await fsPromise.writeFile(fileName, json, 'utf-8');
+    await fsPromise.writeFile(fileName, json, "utf-8");
   }
 }
 

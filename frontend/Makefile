@@ -13,11 +13,9 @@ start: build
 
 check: test
 	npx eslint .
-	npx prettier --check .
 
 format:
 	npx eslint --fix .
-	npx prettier --write .
 
 dev: build
 	npx vite

@@ -1,4 +1,5 @@
 coverage/
 dist/
+testdata/
 vendor/
 *-corrupt.*

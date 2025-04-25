@@ -1,9 +1,9 @@
 // Copyright (c) 2025 Falko Schumann. All rights reserved. MIT license.
 
-import { Injectable } from '@nestjs/common';
+import { Injectable } from "@nestjs/common";
 
-import { TalksQuery, TalksQueryResult } from '../domain/messages';
-import { TalksRepository } from '../infrastructure/talks_repository';
+import { TalksQuery, TalksQueryResult } from "../domain/messages";
+import { TalksRepository } from "../infrastructure/talks_repository";
 
 @Injectable()
 export class TalksService {

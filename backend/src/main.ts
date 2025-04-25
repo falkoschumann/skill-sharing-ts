@@ -1,9 +1,9 @@
 // Copyright (c) 2025 Falko Schumann. All rights reserved. MIT license.
 
-import { ValidationPipe } from '@nestjs/common';
-import { NestFactory } from '@nestjs/core';
+import { ValidationPipe } from "@nestjs/common";
+import { NestFactory } from "@nestjs/core";
 
-import { AppModule } from './app_module';
+import { AppModule } from "./app_module";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

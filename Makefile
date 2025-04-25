@@ -1,13 +1,19 @@
+# TODO Move up eslint
+# TODO Replace jest with vitest
+# TODO Move up vitest
+
 SUBDIRS = frontend backend
-ROOT_FILES = .github/ doc/ README.md
 
 all: $(SUBDIRS) root
 
 clean: $(SUBDIRS)
 clean: TARGET=clean
 
-distclean: $(SUBDIRS)
+distclean: $(SUBDIRS) distclean-root
 distclean: TARGET=distclean
+
+distclean-root:
+	rm -rf node_modules
 
 dist: $(SUBDIRS)
 dist: TARGET=dist
@@ -24,13 +30,13 @@ check: $(SUBDIRS) check-root
 check: TARGET=check
 
 check-root:
-	npx prettier --check $(ROOT_FILES)
+	npx prettier --check .
 
 format: $(SUBDIRS) format-root
 format: TARGET=format
 
 format-root:
-	npx prettier --write $(ROOT_FILES)
+	npx prettier --write .
 
 dev:
 	npx concurrently \

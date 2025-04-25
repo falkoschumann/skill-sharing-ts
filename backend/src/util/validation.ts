@@ -1,7 +1,7 @@
 // Copyright (c) 2025 Falko Schumann. All rights reserved. MIT license.
 
-import { ClassConstructor, plainToInstance } from 'class-transformer';
-import { validateSync, ValidationError } from 'class-validator';
+import { ClassConstructor, plainToInstance } from "class-transformer";
+import { validateSync, ValidationError } from "class-validator";
 
 export class ConstraintViolationError extends Error {
   constructor(
@@ -10,7 +10,7 @@ export class ConstraintViolationError extends Error {
     public errors: ValidationError[],
   ) {
     super(createErrorMessage(target, value, errors));
-    this.name = 'ConstraintViolationError';
+    this.name = "ConstraintViolationError";
   }
 }
 
@@ -66,7 +66,7 @@ function createErrorMessage<T>(
   const error = new ValidationError();
   error.target = target;
   error.value = value;
-  error.property = '';
+  error.property = "";
   error.children = children;
-  return error.toString(false, false, '', true);
+  return error.toString(false, false, "", true);
 }

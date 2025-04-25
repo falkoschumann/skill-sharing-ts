@@ -1,7 +1,7 @@
 // Copyright (c) 2025 Falko Schumann. All rights reserved. MIT license.
 
-import { Type } from 'class-transformer';
-import { IsArray, IsString, ValidateNested } from 'class-validator';
+import { Type } from "class-transformer";
+import { IsArray, IsString, ValidateNested } from "class-validator";
 
 export class Talk {
   @IsString()

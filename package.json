@@ -1,0 +1,10 @@
+{
+  "name": "skill-sharing",
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "devDependencies": {
+    "prettier": "3.5.3"
+  }
+}
