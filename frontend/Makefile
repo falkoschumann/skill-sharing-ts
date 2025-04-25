@@ -23,22 +23,22 @@ dev: build
 	npx vite
 
 test: prepare
-	npm test
+	npx vitest run
 
 watch: prepare
-	npx jest --watch
+	npm test
 
 coverage: prepare
-	npx jest --coverage
+	npx vitest --coverage
 
 unit-tests: prepare
-	npx jest --testPathPattern=".*\/unit\/.*"
+	npx vitest run --testPathPattern=".*\/unit\/.*"
 
 integration-tests: prepare
-	npx jest --testPathPattern=".*\/integration\/.*"
+	npx vitest run --testPathPattern=".*\/integration\/.*"
 
 e2e-tests: prepare
-	npx jest --testPathPattern=".*\/e2e\/.*"
+	npx vitest run --testPathPattern=".*\/e2e\/.*"
 
 build: prepare
 	npm run build

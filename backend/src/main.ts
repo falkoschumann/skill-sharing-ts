@@ -8,7 +8,7 @@ import { AppModule } from './app_module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
-  await app.listen(process.env.SERVER_PORT ?? 3000);
+  await app.listen(process.env.SERVER_PORT ?? 8080);
 }
 
 void bootstrap();

@@ -1,23 +1,21 @@
 // Copyright (c) 2025 Falko Schumann. All rights reserved. MIT license.
 
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import "bootstrap/dist/js/bootstrap.bundle.js";
 import "bootstrap/dist/css/bootstrap.css";
 
-import { Talk } from "../domain/talks.ts";
-import Talks from "./talks.tsx";
+import { AppDispatch } from "../application/store.ts";
+import { queryTalks, selectTalks } from "../application/talks_slice.ts";
+import Talks from "./talks";
 
 export default function App() {
-  const talks: Talk[] = [
-    {
-      title: "Foobar",
-      presenter: "Alice",
-      summary: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      comments: [
-        { author: "Bob", message: "Great talk." },
-        { author: "Alice", message: "Thanks!" },
-      ],
-    },
-  ];
+  const dispatch: AppDispatch = useDispatch();
+  const talks = useSelector(selectTalks);
+
+  useEffect(() => {
+    dispatch(queryTalks({}));
+  }, [dispatch]);
 
   return (
     <div className="container py-4 px-3 mx-auto">

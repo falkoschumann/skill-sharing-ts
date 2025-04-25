@@ -26,4 +26,3 @@ export function createTestComment({
                                   } = {}): Comment {
   return { author, message };
 }
- 
