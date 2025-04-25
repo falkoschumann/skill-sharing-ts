@@ -1,0 +1,10 @@
+{
+  "transform": {
+    "^.+\\.(t|j)s$": "ts-jest"
+  },
+  "watchPathIgnorePatterns": [
+    "<rootDir>/coverage/",
+    "<rootDir>/data/",
+    "<rootDir>/testdata/"
+  ]
+}

@@ -3,17 +3,16 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { TalksService } from './application/talks_service';
 import {
   repositoryConfigurationFactory,
   TalksRepository,
 } from './infrastructure/talks_repository';
-import { TalksService } from './application/talks_service';
+import { TalksController } from './ui/talks_controller';
 
 @Module({
   imports: [ConfigModule.forRoot({ load: [repositoryConfigurationFactory] })],
-  controllers: [AppController],
-  providers: [AppService, TalksRepository, TalksService],
+  controllers: [TalksController],
+  providers: [TalksService, TalksRepository, TalksService],
 })
 export class AppModule {}

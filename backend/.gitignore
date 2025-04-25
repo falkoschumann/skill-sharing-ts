@@ -1,6 +1,6 @@
 # compiled output
 /build
-/data
+# TODO ignore /data
 /dist
 /node_modules
 /testdata

@@ -54,7 +54,7 @@ describe('Talks service', () => {
   });
 });
 
-async function configure({ talks = [] }: { talks?: Talk[] } = {}) {
+async function configure({ talks }: { talks?: Talk[] } = {}) {
   const repository = new TalksRepository({ fileName: TEST_FILE });
   await repository.saveAll(talks);
   const service = new TalksService(repository);

@@ -1,0 +1,19 @@
+{
+  "Foo": {
+    "title": "Foo",
+    "presenter": "Talk test presenter",
+    "summary": "Talk test summary.",
+    "comments": []
+  },
+  "Bar": {
+    "title": "Bar",
+    "presenter": "Talk test presenter",
+    "summary": "Talk test summary.",
+    "comments": [
+      {
+        "author": "Comment test author",
+        "message": "Comment test message"
+      }
+    ]
+  }
+}

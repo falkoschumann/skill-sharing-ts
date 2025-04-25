@@ -43,7 +43,7 @@ export class TalksRepository {
     return validate(Talk, talk);
   }
 
-  async saveAll(talks: Talk[]) {
+  async saveAll(talks: Talk[] = []) {
     const dto = await this.#load();
     talks.forEach((talk) => (dto[talk.title] = talk));
     await this.#store(dto);
