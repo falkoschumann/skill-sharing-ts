@@ -1,6 +1,7 @@
 // Copyright (c) 2025 Falko Schumann. All rights reserved. MIT license.
 
 import * as fsPromise from 'node:fs/promises';
+import * as path from 'node:path';
 import { Inject, Injectable } from '@nestjs/common';
 import { ConfigType, registerAs } from '@nestjs/config';
 
@@ -16,7 +17,7 @@ export const repositoryConfigurationFactory = registerAs('repository', () => ({
 }));
 
 @Injectable()
-export class Repository {
+export class TalksRepository {
   #configuration: RepositoryConfiguration;
 
   constructor(
@@ -32,6 +33,22 @@ export class Repository {
     return validate(Talk, talks);
   }
 
+  async findByTitle(title: string) {
+    const talks = await this.#load();
+    const talk = talks[title];
+    if (talk == null) {
+      return;
+    }
+
+    return validate(Talk, talk);
+  }
+
+  async saveAll(talks: Talk[]) {
+    const dto = await this.#load();
+    talks.forEach((talk) => (dto[talk.title] = talk));
+    await this.#store(dto);
+  }
+
   async #load() {
     try {
       const { fileName } = this.#configuration;
@@ -45,6 +62,15 @@ export class Repository {
 
       throw error;
     }
+  }
+
+  async #store(talks: TalksDto) {
+    const { fileName } = this.#configuration;
+    const dirName = path.dirname(fileName);
+    await fsPromise.mkdir(dirName, { recursive: true });
+
+    const json = JSON.stringify(talks);
+    await fsPromise.writeFile(fileName, json, 'utf-8');
   }
 }
 

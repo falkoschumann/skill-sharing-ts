@@ -71,6 +71,11 @@
       "**/*.(t|j)s"
     ],
     "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "watchPathIgnorePatterns": [
+      "<rootDir>/coverage/",
+      "<rootDir>/data/",
+      "<rootDir>/testdata/"
+    ]
   }
 }
