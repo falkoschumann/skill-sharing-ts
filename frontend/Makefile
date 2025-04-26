@@ -12,10 +12,8 @@ start: build
 	npm start
 
 check: test
-	npx eslint .
 
 format:
-	npx eslint --fix .
 
 dev: build
 	npx vite
@@ -42,16 +40,8 @@ build: prepare
 	npm run build
 
 prepare: version
-	@if [ -n "$(CI)" ] ; then \
-		echo "CI detected, run npm ci"; \
-		npm ci; \
-	else \
-		npm install; \
-	fi
 
 version:
-	@echo "Use Node.js $(shell node --version)"
-	@echo "Use NPM $(shell npm --version)"
 
 .PHONY: all clean distclean dist start \
 	check format \

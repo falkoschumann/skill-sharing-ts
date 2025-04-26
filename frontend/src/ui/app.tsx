@@ -13,9 +13,7 @@ export default function App() {
   const dispatch: AppDispatch = useDispatch();
   const talks = useSelector(selectTalks);
 
-  useEffect(() => {
-    dispatch(queryTalks({}));
-  }, [dispatch]);
+  useEffect(() => void dispatch(queryTalks({})), [dispatch]);
 
   return (
     <div className="container py-4 px-3 mx-auto">

@@ -1,4 +1,3 @@
-# TODO Move up eslint
 # TODO Replace jest with vitest
 # TODO Move up vitest
 
@@ -30,12 +29,14 @@ check: $(SUBDIRS) check-root
 check: TARGET=check
 
 check-root:
+	npx eslint .
 	npx prettier --check .
 
 format: $(SUBDIRS) format-root
 format: TARGET=format
 
 format-root:
+	npx eslint --fix .
 	npx prettier --write .
 
 dev:
@@ -48,7 +49,7 @@ dev:
 test: $(SUBDIRS)
 test: TARGET=test
 
-build: $(SUBDIRS)
+build: prepare $(SUBDIRS)
 build: TARGET=build
 
 version: $(SUBDIRS)
@@ -57,9 +58,21 @@ version: TARGET=version
 $(SUBDIRS): force
 	@$(MAKE) -C $@ $(TARGET)
 
+prepare: version
+	@if [ -n "$(CI)" ] ; then \
+		echo "CI detected, run npm ci"; \
+		npm ci; \
+	else \
+		npm install; \
+	fi
+
+version:
+	@echo "Use Node.js $(shell node --version)"
+	@echo "Use NPM $(shell npm --version)"
+
 force: ;
 
 .PHONY: all clean distclean dist start root doc \
 	check check-root format format-root \
 	dev test \
-	build version
+	build prepare version
