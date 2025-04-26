@@ -1,6 +1,3 @@
-# TODO Replace jest with vitest
-# TODO Move up vitest
-
 SUBDIRS = frontend backend
 
 all: $(SUBDIRS) root

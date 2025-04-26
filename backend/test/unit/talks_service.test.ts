@@ -2,6 +2,7 @@
 
 import * as fsPromise from "node:fs/promises";
 import * as path from "node:path";
+import { beforeEach, describe, expect, it } from "vitest";
 
 import { TalksService } from "../../src/application/talks_service";
 import { Talk } from "../../src/domain/talks";

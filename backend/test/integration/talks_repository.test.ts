@@ -2,6 +2,7 @@
 
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
+import { beforeEach, describe, expect, it } from "vitest";
 
 import { TalksRepository } from "../../src/infrastructure/talks_repository";
 import { createTestTalkWithComment } from "../data/testdata";

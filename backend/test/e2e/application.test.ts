@@ -1,9 +1,11 @@
 // Copyright (c) 2025 Falko Schumann. All rights reserved. MIT license.
 
+import * as path from "node:path";
 import { INestApplication } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
-import * as request from "supertest";
+import request from "supertest";
 import { App } from "supertest/types";
+import { beforeEach, describe, it } from "vitest";
 
 import { AppModule } from "../../src/app_module";
 import { createTestTalk, createTestTalkWithComment } from "../data/testdata";
@@ -12,6 +14,10 @@ describe("Application", () => {
   let app: INestApplication<App>;
 
   beforeEach(async () => {
+    process.env.REPOSITORY_FILE_NAME = path.resolve(
+      __dirname,
+      "../../data/talks.json",
+    );
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     }).compile();

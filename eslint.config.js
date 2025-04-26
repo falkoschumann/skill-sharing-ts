@@ -8,7 +8,7 @@ import ts from "typescript-eslint";
 
 export default ts.config(
   {
-    ignores: ["**/coverage", "**/dist", "eslint.config.js"],
+    ignores: ["**/coverage", "**/dist", "eslint.config.js", "vitest.config.ts"],
   },
   js.configs.recommended,
   ...ts.configs.recommendedTypeChecked,
@@ -18,7 +18,6 @@ export default ts.config(
       globals: {
         ...globals.browser,
         ...globals.node,
-        ...globals.jest,
       },
       sourceType: "commonjs",
       parserOptions: {
