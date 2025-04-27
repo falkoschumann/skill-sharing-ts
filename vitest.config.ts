@@ -8,7 +8,7 @@ export default defineConfig({
   test: {
     coverage: {
       provider: "v8",
-      include: ["src/**/*", "test/**/*"],
+      include: ["**/src/**/*", "**/test/**/*"],
     },
   },
   plugins: [swc.vite({ module: { type: "es6" } })],

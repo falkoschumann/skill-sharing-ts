@@ -19,22 +19,16 @@ dev: build
 	npx vite
 
 test: prepare
-	npx vitest run
 
 watch: prepare
-	npm test
 
 coverage: prepare
-	npx vitest --coverage
 
 unit-tests: prepare
-	npx vitest run --testPathPattern=".*\/unit\/.*"
 
 integration-tests: prepare
-	npx vitest run --testPathPattern=".*\/integration\/.*"
 
 e2e-tests: prepare
-	npx vitest run --testPathPattern=".*\/e2e\/.*"
 
 build: prepare
 	npm run build

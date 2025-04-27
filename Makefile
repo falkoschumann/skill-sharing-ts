@@ -1,6 +1,6 @@
 SUBDIRS = frontend backend
 
-all: $(SUBDIRS) root
+all: $(SUBDIRS)
 
 clean: $(SUBDIRS)
 clean: TARGET=clean
@@ -17,22 +17,14 @@ dist: TARGET=dist
 start: build
 	make -C backend start
 
-root: check-root
-
 doc:
 	plantuml doc/*.puml
 
-check: $(SUBDIRS) check-root
-check: TARGET=check
-
-check-root:
+check: test
 	npx eslint .
 	npx prettier --check .
 
-format: $(SUBDIRS) format-root
-format: TARGET=format
-
-format-root:
+format:
 	npx eslint --fix .
 	npx prettier --write .
 
@@ -43,14 +35,26 @@ dev:
 		--prefix-colors "bgMagenta.bold,bgGreen.bold" \
 		$(foreach dir,$(SUBDIRS),"$(MAKE) -C $(dir) dev")
 
-test: $(SUBDIRS)
-test: TARGET=test
+test: prepare
+	npx vitest run
+
+watch: prepare
+	npm test
+
+coverage: prepare
+	npx vitest --coverage
+
+unit-tests: prepare
+	npx vitest run unit
+
+integration-tests: prepare
+	npx vitest run integration
+
+e2e-tests: prepare
+	npx vitest run e2e
 
 build: prepare $(SUBDIRS)
 build: TARGET=build
-
-version: $(SUBDIRS)
-version: TARGET=version
 
 $(SUBDIRS): force
 	@$(MAKE) -C $@ $(TARGET)
