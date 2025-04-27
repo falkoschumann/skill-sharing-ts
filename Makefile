@@ -53,11 +53,8 @@ integration-tests: prepare
 e2e-tests: prepare
 	npx vitest run e2e
 
-build: prepare $(SUBDIRS)
-build: TARGET=build
-
-$(SUBDIRS): force
-	@$(MAKE) -C $@ $(TARGET)
+build: prepare
+	npm run build --workspaces --if-present
 
 prepare: version
 	@if [ -n "$(CI)" ] ; then \
@@ -71,9 +68,12 @@ version:
 	@echo "Use Node.js $(shell node --version)"
 	@echo "Use NPM $(shell npm --version)"
 
+$(SUBDIRS): force
+	@$(MAKE) -C $@ $(TARGET)
+
 force: ;
 
-.PHONY: all clean distclean dist start root doc \
-	check check-root format format-root \
-	dev test \
+.PHONY: all clean distclean distclean-root dist start doc \
+	check format \
+	dev test watch coverage unit-tests integration-tests e2e-tests \
 	build prepare version

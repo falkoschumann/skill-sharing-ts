@@ -4,10 +4,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
     "build": "tsc -b && vite build",
-    "preview": "vite preview",
-    "test": "vitest"
+    "test": "vitest",
+    "dev": "vite",
+    "preview": "vite preview"
   },
   "dependencies": {
     "@reduxjs/toolkit": "2.7.0",
