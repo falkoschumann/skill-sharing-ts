@@ -3,12 +3,12 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "build": "nest build",
+    "start": "nest start --preserveWatchOutput",
     "test": "vitest",
-    "start": "nest start",
-    "start:dev": "nest start --watch",
-    "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main"
+    "build": "nest build --preserveWatchOutput",
+    "dev": "nest start --preserveWatchOutput --watch",
+    "clean": "rm -rf testdata",
+    "distclean": "rm -rf dist node_modules"
   },
   "dependencies": {
     "@nestjs/common": "11.1.0",

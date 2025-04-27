@@ -1,14 +1,17 @@
 {
   "name": "skill-sharing",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "private": true,
   "type": "module",
   "workspaces": [
-    "backend",
-    "frontend"
+    "frontend",
+    "backend"
   ],
   "scripts": {
-    "test": "vitest"
+    "start": "npm start --workspace=backend",
+    "test": "vitest",
+    "build": "npm run build --workspaces --if-present",
+    "distclean": "rm -rf dist node_modules"
   },
   "devDependencies": {
     "@eslint/js": "9.25.1",

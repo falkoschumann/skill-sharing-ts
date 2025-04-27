@@ -1,21 +1,19 @@
-SUBDIRS = frontend backend
+WORKSPACES=frontend backend
 
-all: $(SUBDIRS)
+all: dist check
 
-clean: $(SUBDIRS)
-clean: TARGET=clean
+clean:
+	npm run clean --workspaces --if-present
 
-distclean: $(SUBDIRS) distclean-root
-distclean: TARGET=distclean
+distclean:
+	npm run distclean --workspaces --if-present
+	npm run distclean
 
-distclean-root:
-	rm -rf node_modules
-
-dist: $(SUBDIRS)
-dist: TARGET=dist
+dist: build
+	npm run dist --workspaces --if-present
 
 start: build
-	make -C backend start
+	npm start
 
 doc:
 	plantuml doc/*.puml
@@ -33,7 +31,7 @@ dev:
 		--kill-others \
 		--names "WEB,API" \
 		--prefix-colors "bgMagenta.bold,bgGreen.bold" \
-		$(foreach dir,$(SUBDIRS),"$(MAKE) -C $(dir) dev")
+		$(foreach workspace,$(WORKSPACES),"npm run dev --workspace=$(workspace)")
 
 test: prepare
 	npx vitest run
@@ -68,12 +66,7 @@ version:
 	@echo "Use Node.js $(shell node --version)"
 	@echo "Use NPM $(shell npm --version)"
 
-$(SUBDIRS): force
-	@$(MAKE) -C $@ $(TARGET)
-
-force: ;
-
-.PHONY: all clean distclean distclean-root dist start doc \
+.PHONY: all clean distclean dist start doc \
 	check format \
 	dev test watch coverage unit-tests integration-tests e2e-tests \
 	build prepare version
