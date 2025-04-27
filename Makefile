@@ -4,8 +4,9 @@ all: dist check
 
 clean:
 	npm run clean --workspaces --if-present
+	npm run clean
 
-distclean:
+distclean: clean
 	npm run distclean --workspaces --if-present
 	npm run distclean
 
