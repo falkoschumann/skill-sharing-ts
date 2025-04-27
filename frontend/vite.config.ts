@@ -1,6 +1,5 @@
 // Copyright (c) 2025 Falko Schumann. All rights reserved. MIT license.
 
-/// <reference types="vitest" />
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
@@ -13,12 +12,6 @@ export default defineConfig({
       "/api": {
         target: `http://localhost:${process.env.SERVER_PORT ?? 8080}`,
       },
-    },
-  },
-  test: {
-    coverage: {
-      provider: "v8",
-      include: ["src/**/*", "test/**/*"],
     },
   },
 });
