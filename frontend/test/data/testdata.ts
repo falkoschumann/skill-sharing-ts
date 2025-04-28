@@ -1,6 +1,6 @@
 // Copyright (c) 2025 Falko Schumann. All rights reserved. MIT license.
 
-import { Comment, Talk } from "../../src/domain/talks";
+import { Comment, Talk } from "@skill-sharing/shared/domain";
 
 export function createTestTalk({
   title = "Talk test title",

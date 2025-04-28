@@ -5,7 +5,7 @@ import * as path from "node:path";
 import { beforeEach, describe, expect, it } from "vitest";
 
 import { TalksService } from "../../src/application/talks_service";
-import { Talk } from "../../src/domain/talks";
+import { Talk } from "@skill-sharing/shared/domain";
 import { TalksRepository } from "../../src/infrastructure/talks_repository";
 import { createTestTalk } from "../data/testdata";
 

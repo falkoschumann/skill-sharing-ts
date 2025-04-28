@@ -5,7 +5,7 @@ import * as path from "node:path";
 import { Inject, Injectable } from "@nestjs/common";
 import { ConfigType, registerAs } from "@nestjs/config";
 
-import { Talk } from "../domain/talks";
+import { Talk } from "@skill-sharing/shared/domain";
 import { validate } from "../util/validation";
 
 export interface RepositoryConfiguration {

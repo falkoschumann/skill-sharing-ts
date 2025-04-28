@@ -3,7 +3,7 @@
 import { Controller, Get, Query } from "@nestjs/common";
 
 import { TalksService } from "../application/talks_service";
-import { TalksQueryResult } from "../domain/messages";
+import { TalksQueryResult } from "@skill-sharing/shared/domain";
 
 @Controller("api/talks")
 export class TalksController {

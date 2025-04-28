@@ -1,0 +1,25 @@
+{
+  "name": "@skill-sharing/shared",
+  "version": "0.1.0",
+  "private": true,
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "default": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./domain": {
+      "default": "./dist/domain/index.js",
+      "types": "./dist/domain/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "distclean": "rm -rf dist node_modules"
+  },
+  "dependencies": {
+    "class-transformer": "0.5.1",
+    "class-validator": "0.14.1"
+  }
+}

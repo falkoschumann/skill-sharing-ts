@@ -2,8 +2,11 @@
 
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-import { TalksQuery, TalksQueryResult } from "../domain/messages.ts";
-import { Talk } from "../domain/talks.ts";
+import {
+  Talk,
+  TalksQuery,
+  TalksQueryResult,
+} from "@skill-sharing/shared/domain";
 import { TalksApi } from "../infrastructure/talks_api.ts";
 
 interface TalksState {

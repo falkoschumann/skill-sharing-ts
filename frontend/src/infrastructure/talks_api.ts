@@ -1,6 +1,6 @@
 // Copyright (c) 2025 Falko Schumann. All rights reserved. MIT license.
 
-import { TalksQuery, TalksQueryResult } from "../domain/messages";
+import { TalksQuery, TalksQueryResult } from "@skill-sharing/shared/domain";
 import { createTestTalk } from "../../test/data/testdata";
 
 type FetchType = typeof globalThis.fetch;
