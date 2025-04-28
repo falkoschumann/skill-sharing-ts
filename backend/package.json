@@ -3,10 +3,10 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "nest start --preserveWatchOutput",
+    "start": "nest start",
     "test": "vitest",
-    "build": "nest build --preserveWatchOutput",
-    "dev": "nest start --preserveWatchOutput --watch",
+    "build": "nest build",
+    "dev": "nest start --watch --preserveWatchOutput",
     "clean": "rm -rf testdata",
     "distclean": "rm -rf dist node_modules"
   },

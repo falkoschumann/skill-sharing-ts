@@ -16,6 +16,7 @@
   },
   "scripts": {
     "build": "tsc",
+    "dev": "tsc --watch",
     "distclean": "rm -rf dist node_modules"
   },
   "dependencies": {
