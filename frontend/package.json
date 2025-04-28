@@ -8,7 +8,8 @@
     "test": "vitest",
     "build": "tsc -b && vite build",
     "dev": "vite",
-    "distclean": "rm -rf dist node_modules"
+    "clean": "rm -rf dist",
+    "distclean": "rm -rf node_modules"
   },
   "dependencies": {
     "@reduxjs/toolkit": "2.7.0",

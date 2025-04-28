@@ -7,8 +7,8 @@
     "test": "vitest",
     "build": "nest build",
     "dev": "nest start --watch --preserveWatchOutput",
-    "clean": "rm -rf testdata",
-    "distclean": "rm -rf dist node_modules"
+    "clean": "rm -rf dist testdata",
+    "distclean": "rm -rf node_modules"
   },
   "dependencies": {
     "@nestjs/common": "11.1.0",
