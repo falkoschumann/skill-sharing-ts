@@ -7,7 +7,8 @@ import { Provider } from "react-redux";
 import { store } from "./application/store.ts";
 import App from "./ui/app.tsx";
 
-createRoot(document.getElementById("root")!).render(
+const rootElement = document.getElementById("root")!;
+createRoot(rootElement).render(
   <StrictMode>
     <Provider store={store}>
       <App />
