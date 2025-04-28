@@ -5,8 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import "bootstrap/dist/js/bootstrap.bundle.js";
 import "bootstrap/dist/css/bootstrap.css";
 
-import { AppDispatch } from "../application/store.ts";
-import { queryTalks, selectTalks } from "../application/talks_slice.ts";
+import { AppDispatch } from "../application/store";
+import { queryTalks, selectTalks } from "../application/talks_slice";
 import Talks from "./talks";
 
 export default function App() {
