@@ -17,6 +17,18 @@ export class Talk {
   @ValidateNested()
   @Type(() => Comment)
   comments: Comment[];
+
+  constructor(
+    title: string,
+    presenter: string,
+    summary: string,
+    comments: Comment[],
+  ) {
+    this.title = title;
+    this.presenter = presenter;
+    this.summary = summary;
+    this.comments = comments;
+  }
 }
 
 export class Comment {
@@ -25,4 +37,9 @@ export class Comment {
 
   @IsString()
   message: string;
+
+  constructor(author: string, message: string) {
+    this.author = author;
+    this.message = message;
+  }
 }

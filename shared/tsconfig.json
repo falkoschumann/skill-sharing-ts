@@ -6,14 +6,14 @@
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
     "target": "ES2022",
+    "lib": ["ES2022"],
     "sourceMap": true,
+    "declarationMap": true,
     "outDir": "./dist",
     "incremental": true,
     "skipLibCheck": true,
-    "strictNullChecks": true,
     "forceConsistentCasingInFileNames": true,
-    "noImplicitAny": false,
-    "strictBindCallApply": false,
+    "strict": true,
     "noFallthroughCasesInSwitch": false
   },
   "include": ["src"]

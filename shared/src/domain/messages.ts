@@ -9,6 +9,10 @@ export class TalksQuery {
   @IsOptional()
   @IsString()
   title?: string;
+
+  constructor(title: string) {
+    this.title = title;
+  }
 }
 
 export class TalksQueryResult {
@@ -16,4 +20,8 @@ export class TalksQueryResult {
   @ValidateNested()
   @Type(() => Talk)
   talks: Talk[];
+
+  constructor(talks: Talk[]) {
+    this.talks = talks;
+  }
 }
