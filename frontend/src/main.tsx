@@ -4,8 +4,8 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
 
-import { store } from "./application/store";
-import App from "./ui/app";
+import { store } from "./application/store.ts";
+import App from "./ui/app.tsx";
 
 const rootElement = document.getElementById("root")!;
 createRoot(rootElement).render(

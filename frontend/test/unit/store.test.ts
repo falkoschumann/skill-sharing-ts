@@ -5,7 +5,7 @@
 import { describe, expect, it } from "vitest";
 
 import { createStore } from "../../src/application/store";
-import { queryTalks, selectTalks } from "../../src/application/talks_slice";
+import { queryTalks, selectTalks } from "../../src/application/talks_slice.ts";
 import { TalksApi } from "../../src/infrastructure/talks_api";
 import { createTestTalk } from "../data/testdata";
 
