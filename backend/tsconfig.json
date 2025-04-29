@@ -1,21 +1,28 @@
 {
   "compilerOptions": {
+    // Type Checking
+    "noFallthroughCasesInSwitch": false,
+    "strict": true,
+    // Modules
+    "baseUrl": "./",
     "module": "NodeNext",
     "moduleResolution": "nodenext",
+    // Emit
     "declaration": true,
+    "outDir": "./dist",
     "removeComments": true,
+    "sourceMap": true,
+    // Interop Constraints
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    // Language and Environment
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
-    "target": "ES2022",
     "lib": ["ES2022"],
-    "sourceMap": true,
-    "outDir": "./dist",
-    "baseUrl": "./",
+    "target": "ES2022",
+    // Projects
     "incremental": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "noFallthroughCasesInSwitch": false
+    // Completeness
+    "skipLibCheck": true
   }
 }
