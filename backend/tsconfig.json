@@ -1,8 +1,6 @@
 {
+  "extends": "../tsconfig.base.json",
   "compilerOptions": {
-    // Type Checking
-    "noFallthroughCasesInSwitch": false,
-    "strict": true,
     // Modules
     "baseUrl": "./",
     "module": "NodeNext",
@@ -13,16 +11,11 @@
     "removeComments": true,
     "sourceMap": true,
     // Interop Constraints
-    "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true,
+    //"allowSyntheticDefaultImports": true,
     // Language and Environment
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "lib": ["ES2022"],
-    "target": "ES2022",
     // Projects
-    "incremental": true,
-    // Completeness
-    "skipLibCheck": true
+    "incremental": true
   }
 }

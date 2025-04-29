@@ -1,27 +1,22 @@
 {
+  "extends": "../tsconfig.base.json",
   "compilerOptions": {
-    // Type Checking
-    "noFallthroughCasesInSwitch": false,
-    "strict": true,
     // Modules
-    "module": "commonjs",
+    //"module": "commonjs",
+    "module": "NodeNext",
+    "moduleResolution": "nodenext",
     // Emit
     "declaration": true,
     "declarationMap": true,
     "outDir": "./dist",
     "sourceMap": true,
     // Interop Constraints
-    "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true,
+    //"allowSyntheticDefaultImports": true,
     // Language and Environment
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "lib": ["ES2022"],
-    "target": "ES2022",
     // Projects
-    "incremental": true,
-    // Completeness
-    "skipLibCheck": true
+    "incremental": true
   },
   "include": ["src"]
 }

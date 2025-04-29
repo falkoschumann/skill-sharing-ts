@@ -1,27 +1,18 @@
 {
+  "extends": "../tsconfig.base.json",
   "compilerOptions": {
-    // Type Checking
-    "noFallthroughCasesInSwitch": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "strict": true,
     // Modules
-    "allowImportingTsExtensions": true,
+    //"allowImportingTsExtensions": true,
     "module": "ESNext",
     "moduleResolution": "bundler",
-    "noUncheckedSideEffectImports": true,
     // Emit
     "noEmit": true,
     // Interop Constraints
     "isolatedModules": true,
     // Language and Environment
-    "lib": ["ES2022"],
     "moduleDetection": "force",
-    "target": "ES2022",
     // Projects
-    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
-    // Completeness
-    "skipLibCheck": true
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo"
   },
   "include": ["vite.config.ts"]
 }
