@@ -7,7 +7,7 @@ import {
   TalksQuery,
   TalksQueryResult,
 } from "@skill-sharing/shared/domain";
-import { TalksApi } from "../infrastructure/talks_api.ts";
+import { TalksApi } from "../infrastructure/talks_api";
 
 interface TalksState {
   readonly talks: Talk[];
