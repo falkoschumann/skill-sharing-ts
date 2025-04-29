@@ -1,21 +1,21 @@
 {
+  "extends": "../tsconfig.base.json",
   "compilerOptions": {
+    // Modules
+    "baseUrl": "./",
     "module": "NodeNext",
     "moduleResolution": "nodenext",
+    // Emit
     "declaration": true,
+    "outDir": "./dist",
     "removeComments": true,
+    "sourceMap": true,
+    // Interop Constraints
+    //"allowSyntheticDefaultImports": true,
+    // Language and Environment
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
-    "target": "ES2022",
-    "lib": ["ES2022"],
-    "sourceMap": true,
-    "outDir": "./dist",
-    "baseUrl": "./",
-    "incremental": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "noFallthroughCasesInSwitch": false
+    // Projects
+    "incremental": true
   }
 }
