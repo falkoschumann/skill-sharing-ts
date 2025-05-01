@@ -2,25 +2,30 @@
   "name": "@skill-sharing/shared",
   "version": "0.1.0",
   "private": true,
-  "module": "dist/index.js",
+  "type": "module",
+  "main": "dist/shared.cjs",
+  "module": "dist/shared.js",
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "default": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
     },
     "./domain": {
-      "default": "./dist/domain/index.js",
-      "types": "./dist/domain/index.d.ts"
+      "types": "./dist/domain.d.ts",
+      "import": "./dist/domain.js",
+      "require": "./dist/domain.cjs"
     },
     "./util": {
-      "default": "./dist/util/index.js",
-      "types": "./dist/util/index.d.ts"
+      "types": "./dist/util.d.ts",
+      "import": "./dist/util.js",
+      "require": "./dist/util.cjs"
     }
   },
   "scripts": {
-    "build": "tsc --project tsconfig.build.json",
-    "dev": "tsc --project tsconfig.build.json --watch",
+    "build": "tsc && vite build",
+    "dev": "vite build --watch",
     "clean": "rm -rf dist",
     "distclean": "rm -rf node_modules"
   },
@@ -29,6 +34,11 @@
     "class-validator": "0.14.1"
   },
   "devDependencies": {
-    "typescript": "5.8.3"
+    "@swc/core": "1.11.22",
+    "typescript": "5.8.3",
+    "unplugin-swc": "1.5.2",
+    "vite": "6.3.3",
+    "vite-plugin-dts": "4.5.3",
+    "vitest": "3.1.2"
   }
 }

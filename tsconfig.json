@@ -1,19 +1,15 @@
 {
-  "extends": "../tsconfig.base.json",
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
     // Modules
     "module": "ESNext",
     "moduleResolution": "bundler",
     // Emit
-    "noEmit": false,
-    "declaration": true,
-    "outDir": "./dist",
+    "noEmit": true,
     // Interop Constraints
     "isolatedModules": true,
     // Language and Environment
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
     "moduleDetection": "force"
   },
-  "include": ["src", "test", "vite.config.ts"]
+  "include": ["vite.config.ts", "vitest.setup.ts"]
 }

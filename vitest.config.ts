@@ -10,6 +10,7 @@ export default defineConfig({
       provider: "v8",
       include: ["**/src/**/*", "**/test/**/*"],
     },
+    setupFiles: ["./vitest.setup.ts"],
   },
   plugins: [swc.vite({ module: { type: "es6" } })],
 });
