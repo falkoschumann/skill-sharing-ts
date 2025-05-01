@@ -17,5 +17,5 @@
     // Projects
     "incremental": true
   },
-  "include": ["src"]
+  "include": ["src", "test"]
 }

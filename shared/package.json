@@ -12,11 +12,15 @@
     "./domain": {
       "default": "./dist/domain/index.js",
       "types": "./dist/domain/index.d.ts"
+    },
+    "./util": {
+      "default": "./dist/util/index.js",
+      "types": "./dist/util/index.d.ts"
     }
   },
   "scripts": {
-    "build": "tsc",
-    "dev": "tsc --watch",
+    "build": "tsc --project tsconfig.build.json",
+    "dev": "tsc --project tsconfig.build.json --watch",
     "clean": "rm -rf dist",
     "distclean": "rm -rf node_modules"
   },

@@ -6,7 +6,7 @@ import { Inject, Injectable } from "@nestjs/common";
 import { ConfigType, registerAs } from "@nestjs/config";
 
 import { Talk } from "@skill-sharing/shared/domain";
-import { validate } from "../util/validation";
+import { validate } from "@skill-sharing/shared/util";
 
 export interface RepositoryConfiguration {
   fileName: string;
