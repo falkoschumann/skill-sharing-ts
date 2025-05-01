@@ -23,7 +23,8 @@ export class TalksApi {
   async queryTalks(_query: TalksQuery): Promise<TalksQueryResult> {
     const response = await this.#fetch("/api/talks/query-talks");
     // TODO Validate query result
-    return (await response.json()) as TalksQueryResult;
+    const json = (await response.json()) as unknown;
+    return json as TalksQueryResult;
   }
 }
 
