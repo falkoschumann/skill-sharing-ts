@@ -1,6 +1,7 @@
 // Copyright (c) 2025 Falko Schumann. All rights reserved. MIT license.
 
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { instanceToPlain } from "class-transformer";
 
 import {
   Talk,
@@ -44,7 +45,8 @@ const queryTalks = createAsyncThunk<
   TalksThunkConfig
 >("talks/queryTalks", async (query: TalksQuery, thunkApi) => {
   const { talksApi } = thunkApi.extra;
-  return talksApi.queryTalks(query);
+  const result = await talksApi.queryTalks(query);
+  return instanceToPlain(result) as TalksQueryResult;
 });
 
 export default talksSlice.reducer;

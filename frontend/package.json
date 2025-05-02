@@ -17,7 +17,9 @@
     "bootstrap": "5.3.5",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "react-redux": "9.2.0"
+    "react-redux": "9.2.0",
+    "class-transformer": "0.5.1",
+    "class-validator": "0.14.1"
   },
   "devDependencies": {
     "@types/react": "19.1.2",
