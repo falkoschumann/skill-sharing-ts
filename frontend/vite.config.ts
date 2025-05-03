@@ -2,11 +2,11 @@
 
 /// <reference types="vitest" />
 import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
+import react from "@vitejs/plugin-react-swc";
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react({ tsDecorators: true })],
   server: {
     port: process.env.DEV_PORT ? parseInt(process.env.DEV_PORT) : 3000,
     proxy: {
