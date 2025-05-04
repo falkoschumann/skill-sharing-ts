@@ -1,5 +1,6 @@
 // Copyright (c) 2025 Falko Schumann. All rights reserved. MIT license.
 
+// TODO use User instead of username
 export default function UserField({ username, onUsernameChanged }: { username: string; onUsernameChanged: (username: string) => void }) {
   return (
     <div className="mb-4">

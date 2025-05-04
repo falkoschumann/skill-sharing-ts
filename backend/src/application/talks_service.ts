@@ -2,7 +2,7 @@
 
 import { Injectable } from "@nestjs/common";
 
-import { TalksQuery, TalksQueryResult } from "@skill-sharing/shared/domain";
+import { TalksQuery, TalksQueryResult } from "../domain/messages";
 import { TalksRepository } from "../infrastructure/talks_repository";
 
 @Injectable()

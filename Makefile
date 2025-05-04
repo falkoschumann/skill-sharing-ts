@@ -1,4 +1,4 @@
-WORKSPACES=shared backend frontend
+WORKSPACES=backend frontend
 
 all: dist check
 
@@ -30,8 +30,8 @@ format:
 dev: prepare
 	npx concurrently \
 		--kill-others \
-		--names "LIB,WEB,API" \
-		--prefix-colors "bgRed.bold,bgMagenta.bold,bgGreen.bold" \
+		--names "WEB,API" \
+		--prefix-colors "bgMagenta.bold,bgGreen.bold" \
 		$(foreach workspace,$(WORKSPACES),"npm run dev --workspace=$(workspace)")
 
 test: prepare

@@ -3,7 +3,6 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
-import "reflect-metadata";
 
 import { store } from "./application/store";
 import SkillSharing from "./ui/skill_sharing";

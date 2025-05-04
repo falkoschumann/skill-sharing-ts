@@ -5,8 +5,7 @@ import * as path from "node:path";
 import { Inject, Injectable } from "@nestjs/common";
 import { ConfigType, registerAs } from "@nestjs/config";
 
-import { Talk } from "@skill-sharing/shared/domain";
-import { validate } from "@skill-sharing/shared/util";
+import { Talk } from "../domain/talks";
 
 export interface RepositoryConfiguration {
   fileName: string;
@@ -29,18 +28,15 @@ export class TalksRepository {
 
   async findAll() {
     const dto = await this.#load();
-    const talks = fromDto(dto);
-    return validate(Talk, talks);
+    return fromDto(dto);
   }
 
   async findByTitle(title: string) {
     const talks = await this.#load();
     const talk = talks[title];
-    if (talk == null) {
-      return;
+    if (talk != null) {
+      return talk;
     }
-
-    return validate(Talk, talk);
   }
 
   async saveAll(talks: Talk[] = []) {
