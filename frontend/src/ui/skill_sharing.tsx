@@ -19,7 +19,7 @@ export default function SkillSharing() {
   return (
     <div className="container py-4 px-3 mx-auto">
       <h1>Skill Sharing</h1>
-      <UserField username={user} onUsernameChanged={(username) => void dispatch(changeUser({ username }))} />
+      <UserField user={user} onUsernameChanged={(username) => void dispatch(changeUser({ username }))} />
       <Talks talks={talks} />
     </div>
   );

@@ -14,12 +14,12 @@ import { UsersRepository } from "../infrastructure/users_repository";
 
 interface TalksState {
   readonly talks: Talk[];
-  readonly user: string;
+  readonly user: User;
 }
 
 const initialState: TalksState = {
   talks: [],
-  user: "Anon",
+  user: { username: "Anon" },
 };
 
 type TalksThunkConfig = {
@@ -34,13 +34,13 @@ const talksSlice = createSlice({
   initialState,
   reducers: {
     userChanged: (state, action: PayloadAction<User>) => {
-      state.user = action.payload.username;
+      state.user = action.payload;
     },
   },
   extraReducers: (builder) => {
     // Change user
     builder.addCase(changeUser.fulfilled, (state, action) => {
-      state.user = action.payload.username;
+      state.user = action.payload;
     });
 
     // TODO Replace with SSE
