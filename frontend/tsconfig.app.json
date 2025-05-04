@@ -10,8 +10,6 @@
     // Interop Constraints
     "isolatedModules": true,
     // Language and Environment
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
     "jsx": "react-jsx",
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "moduleDetection": "force",
