@@ -34,7 +34,7 @@
     "class-validator": "0.14.1"
   },
   "devDependencies": {
-    "@swc/core": "1.11.22",
+    "@swc/core": "1.11.24",
     "typescript": "5.8.3",
     "unplugin-swc": "1.5.2",
     "vite": "6.3.3",
