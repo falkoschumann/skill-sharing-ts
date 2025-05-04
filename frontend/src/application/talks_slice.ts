@@ -1,12 +1,16 @@
 // Copyright (c) 2025 Falko Schumann. All rights reserved. MIT license.
 
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import {
+  createAsyncThunk,
+  createSlice,
+  type PayloadAction,
+} from "@reduxjs/toolkit";
 
-import { TalksQuery, TalksQueryResult } from "../domain/messages";
-import { Talk } from "../domain/talks";
+import type { TalksQuery, TalksQueryResult } from "../domain/messages";
+import type { Talk } from "../domain/talks";
+import type { User } from "../domain/users";
 import { TalksApi } from "../infrastructure/talks_api";
 import { UsersRepository } from "../infrastructure/users_repository";
-import { User } from "../domain/users";
 
 interface TalksState {
   readonly talks: Talk[];

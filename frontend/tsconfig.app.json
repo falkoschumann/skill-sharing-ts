@@ -8,7 +8,8 @@
     // Emit
     "noEmit": true,
     // Interop Constraints
-    "isolatedModules": true,
+    "erasableSyntaxOnly": true,
+    "verbatimModuleSyntax": true,
     // Language and Environment
     "jsx": "react-jsx",
     "lib": ["ES2022", "DOM", "DOM.Iterable"],

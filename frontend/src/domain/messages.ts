@@ -1,6 +1,6 @@
 // Copyright (c) 2025 Falko Schumann. All rights reserved. MIT license.
 
-import { Talk } from "./talks";
+import type { Talk } from "./talks";
 
 export interface TalksQuery {
   title?: string;

@@ -12,10 +12,10 @@ import {
   selectUser,
   start,
 } from "../../src/application/talks_slice";
+import type { User } from "../../src/domain/users";
 import { TalksApi } from "../../src/infrastructure/talks_api";
-import { createTestTalk, createTestUser } from "../data/testdata";
 import { UsersRepository } from "../../src/infrastructure/users_repository";
-import { User } from "../../src/domain/users";
+import { createTestTalk, createTestUser } from "../data/testdata";
 
 describe("Store", () => {
   describe("User", () => {

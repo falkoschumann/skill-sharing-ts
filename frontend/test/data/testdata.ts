@@ -1,7 +1,7 @@
 // Copyright (c) 2025 Falko Schumann. All rights reserved. MIT license.
 
-import { Comment, Talk } from "../../src/domain/talks";
-import { User } from "../../src/domain/users";
+import type { Comment, Talk } from "../../src/domain/talks";
+import type { User } from "../../src/domain/users";
 
 export function createTestTalk({
   title = "Talk test title",

@@ -1,6 +1,6 @@
 // Copyright (c) 2025 Falko Schumann. All rights reserved. MIT license.
 
-import { TalksQuery, TalksQueryResult } from "../domain/messages";
+import type { TalksQuery, TalksQueryResult } from "../domain/messages";
 import { createTestTalk } from "../../test/data/testdata";
 
 type FetchType = typeof globalThis.fetch;
