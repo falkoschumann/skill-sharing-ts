@@ -17,4 +17,24 @@ describe("Talks API", () => {
       talks: [createTestTalk()],
     });
   });
+
+  it("Submits talk", async () => {
+    const { api } = configure();
+    const talksPut = api.trackTalksSubmitted();
+
+    await api.submitTalk({
+      title: "title-1",
+      presenter: "presenter-1",
+      summary: "summary-1",
+    });
+
+    expect(talksPut.data).toEqual([
+      { title: "title-1", presenter: "presenter-1", summary: "summary-1" },
+    ]);
+  });
 });
+
+function configure() {
+  const api = TalksApi.createNull();
+  return { api };
+}

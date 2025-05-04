@@ -6,7 +6,7 @@ import {
   type PayloadAction,
 } from "@reduxjs/toolkit";
 
-import type { TalksQuery, TalksQueryResult } from "../domain/messages";
+import type { CommandStatus, TalksQueryResult } from "../domain/messages";
 import type { Talk } from "../domain/talks";
 import type { User } from "../domain/users";
 import { TalksApi } from "../infrastructure/talks_api";
@@ -23,9 +23,10 @@ const initialState: TalksState = {
 };
 
 type TalksThunkConfig = {
+  readonly state: { talks: TalksState };
   extra: {
-    talksApi: TalksApi;
-    usersRepository: UsersRepository;
+    readonly talksApi: TalksApi;
+    readonly usersRepository: UsersRepository;
   };
 };
 
@@ -75,13 +76,19 @@ const changeUser = createAsyncThunk<User, User, TalksThunkConfig>(
   },
 );
 
-const queryTalks = createAsyncThunk<
-  TalksQueryResult,
-  TalksQuery,
+const submitTalk = createAsyncThunk<
+  CommandStatus,
+  { title: string; summary: string },
   TalksThunkConfig
->("talks/queryTalks", async (query: TalksQuery, thunkApi) => {
+>("talks/submitTalk", async ({ title, summary }, thunkApi) => {
   const { talksApi } = thunkApi.extra;
-  return talksApi.queryTalks(query);
+  const { username } = selectUser(thunkApi.getState());
+  const command = {
+    title,
+    presenter: username,
+    summary,
+  };
+  return talksApi.submitTalk(command);
 });
 
 export default talksSlice.reducer;
@@ -90,7 +97,7 @@ export default talksSlice.reducer;
 const { talksUpdated, userChanged } = talksSlice.actions;
 
 // Async thunks
-export { changeUser, start, queryTalks };
+export { changeUser, start, submitTalk };
 
 // Selectors
 export const { selectTalks, selectUser } = talksSlice.selectors;

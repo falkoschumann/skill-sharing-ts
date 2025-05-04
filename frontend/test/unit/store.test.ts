@@ -10,6 +10,7 @@ import {
   selectTalks,
   selectUser,
   start,
+  submitTalk,
 } from "../../src/application/talks_slice";
 import type { User } from "../../src/domain/users";
 import { TalksApi } from "../../src/infrastructure/talks_api";
@@ -46,6 +47,24 @@ describe("Store", () => {
       await store.dispatch(start());
 
       expect(selectUser(store.getState())).toEqual(user);
+    });
+  });
+
+  describe("Submit talk", () => {
+    it("Adds talk to list", async () => {
+      const { store, talksApi } = configure();
+      const talksSubmitted = talksApi.trackTalksSubmitted();
+
+      await store.dispatch(
+        submitTalk({
+          title: "Foobar",
+          summary: "Lorem ipsum",
+        }),
+      );
+
+      expect(talksSubmitted.data).toEqual([
+        { title: "Foobar", presenter: "Anon", summary: "Lorem ipsum" },
+      ]);
     });
   });
 
