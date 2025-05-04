@@ -3,20 +3,20 @@
 import type { Talk } from "./talks";
 
 export interface SubmitTalkCommand {
-  title: string;
-  presenter: string;
-  summary: string;
+  readonly title: string;
+  readonly presenter: string;
+  readonly summary: string;
 }
 
 export type CommandStatus = Success | Failure;
 
 export interface Success {
-  isSuccess: true;
+  readonly isSuccess: true;
 }
 
 export interface Failure {
-  isSuccess: false;
-  errorMessage: string;
+  readonly isSuccess: false;
+  readonly errorMessage: string;
 }
 
 export function createSuccess(): Success {
@@ -28,9 +28,9 @@ export function createFailure(errorMessage: string): Failure {
 }
 
 export interface TalksQuery {
-  title?: string;
+  readonly title?: string;
 }
 
 export interface TalksQueryResult {
-  talks: Talk[];
+  readonly talks: Talk[];
 }

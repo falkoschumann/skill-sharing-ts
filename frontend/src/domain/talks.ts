@@ -1,13 +1,13 @@
 // Copyright (c) 2025 Falko Schumann. All rights reserved. MIT license.
 
 export interface Talk {
-  title: string;
-  presenter: string;
-  summary: string;
-  comments: Comment[];
+  readonly title: string;
+  readonly presenter: string;
+  readonly summary: string;
+  readonly comments: Comment[];
 }
 
 export interface Comment {
-  author: string;
-  message: string;
+  readonly author: string;
+  readonly message: string;
 }
