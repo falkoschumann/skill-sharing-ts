@@ -1,9 +1,50 @@
 // Copyright (c) 2025 Falko Schumann. All rights reserved. MIT license.
 
 import { Type } from "class-transformer";
-import { IsArray, IsOptional, IsString, ValidateNested } from "class-validator";
+import {
+  IsArray,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  ValidateNested,
+} from "class-validator";
 
 import { Talk } from "./talks";
+
+export class SubmitTalkCommand {
+  @IsString()
+  @IsNotEmpty()
+  title: string;
+
+  @IsString()
+  @IsNotEmpty()
+  presenter: string;
+
+  @IsString()
+  @IsNotEmpty()
+  summary: string;
+
+  constructor(title: string, presenter: string, summary: string) {
+    this.title = title;
+    this.presenter = presenter;
+    this.summary = summary;
+  }
+}
+
+export type CommandStatus = Success | Failure;
+
+export class Success {
+  readonly isSuccess = true;
+}
+
+export class Failure {
+  readonly isSuccess = false;
+  readonly errorMessage: string;
+
+  constructor(errorMessage: string) {
+    this.errorMessage = errorMessage;
+  }
+}
 
 export class TalksQuery {
   @IsOptional()

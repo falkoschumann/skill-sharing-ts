@@ -5,7 +5,7 @@ import * as path from "node:path";
 import { beforeEach, describe, expect, it } from "vitest";
 
 import { TalksRepository } from "../../src/infrastructure/talks_repository";
-import { createTestTalkWithComment } from "../data/testdata";
+import { createTestTalk, createTestTalkWithComment } from "../data/testdata";
 
 const testFile = path.resolve(
   __dirname,
@@ -79,6 +79,53 @@ describe("Talks repository", () => {
       const repository = new TalksRepository({ fileName: corruptedFile });
 
       const result = repository.findByTitle("Any title");
+
+      await expect(result).rejects.toThrow(SyntaxError);
+    });
+  });
+
+  describe("Save", () => {
+    it("Creates file when file does not exist", async () => {
+      const repository = new TalksRepository({ fileName: testFile });
+
+      const talk = createTestTalk();
+      await repository.save(talk);
+
+      const talks = await repository.findAll();
+      expect(talks).toEqual([talk]);
+    });
+
+    it("Adds talk when file exists", async () => {
+      const repository = new TalksRepository({ fileName: testFile });
+      const talk1 = createTestTalk({ title: "Foo" });
+      await repository.save(talk1);
+
+      const talk2 = createTestTalk({ title: "Bar" });
+      await repository.save(talk2);
+
+      const talks = await repository.findAll();
+      expect(talks).toEqual([talk1, talk2]);
+    });
+
+    it("Updates talk when talk exists", async () => {
+      const repository = new TalksRepository({ fileName: testFile });
+      const talk = createTestTalk({
+        presenter: "Alice",
+      });
+      await repository.save(talk);
+
+      const updatedTalk = createTestTalk({ presenter: "Bob" });
+      await repository.save(updatedTalk);
+
+      const talks = await repository.findAll();
+      expect(talks).toEqual([updatedTalk]);
+    });
+
+    it("Reports an error when file is corrupt", async () => {
+      const repository = new TalksRepository({ fileName: corruptedFile });
+
+      const talk = createTestTalk();
+      const result = repository.save(talk);
 
       await expect(result).rejects.toThrow(SyntaxError);
     });

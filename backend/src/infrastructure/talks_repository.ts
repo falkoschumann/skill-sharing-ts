@@ -39,6 +39,12 @@ export class TalksRepository {
     }
   }
 
+  async save(talk: Talk) {
+    const dto = await this.#load();
+    dto[talk.title] = talk;
+    await this.#store(dto);
+  }
+
   async saveAll(talks: Talk[] = []) {
     const dto = await this.#load();
     talks.forEach((talk) => (dto[talk.title] = talk));

@@ -2,6 +2,7 @@
 
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
+import { EventEmitterModule } from "@nestjs/event-emitter";
 
 import { TalksService } from "./application/talks_service";
 import {
@@ -11,7 +12,10 @@ import {
 import { TalksController } from "./ui/talks_controller";
 
 @Module({
-  imports: [ConfigModule.forRoot({ load: [repositoryConfigurationFactory] })],
+  imports: [
+    ConfigModule.forRoot({ load: [repositoryConfigurationFactory] }),
+    EventEmitterModule.forRoot(),
+  ],
   controllers: [TalksController],
   providers: [TalksService, TalksRepository, TalksService],
 })

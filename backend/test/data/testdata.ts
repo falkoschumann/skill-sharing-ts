@@ -1,6 +1,7 @@
 // Copyright (c) 2025 Falko Schumann. All rights reserved. MIT license.
 
 import { Comment, Talk } from "../../src/domain/talks";
+import { SubmitTalkCommand } from "../../src/domain/messages";
 
 export function createTestTalk({
   title = "Talk test title",
@@ -25,4 +26,12 @@ export function createTestComment({
   message = "Comment test message",
 } = {}): Comment {
   return { author, message };
+}
+
+export function createTestSubmitTalkCommand({
+  title = "Talk test title",
+  presenter = "Talk test presenter",
+  summary = "Talk test summary.",
+} = {}): SubmitTalkCommand {
+  return { title, presenter, summary };
 }

@@ -5,9 +5,11 @@ import * as path from "node:path";
 import { beforeEach, describe, expect, it } from "vitest";
 
 import { TalksService } from "../../src/application/talks_service";
+import { Success } from "../../src/domain/messages";
 import { Talk } from "../../src/domain/talks";
 import { TalksRepository } from "../../src/infrastructure/talks_repository";
-import { createTestTalk } from "../data/testdata";
+import { createTestSubmitTalkCommand, createTestTalk } from "../data/testdata";
+import { EventEmitter2 } from "@nestjs/event-emitter";
 
 const TEST_FILE = path.resolve(
   __dirname,
@@ -17,6 +19,18 @@ const TEST_FILE = path.resolve(
 describe("Talks service", () => {
   beforeEach(async () => {
     await fsPromise.rm(TEST_FILE, { force: true });
+  });
+
+  describe("Submit talk", () => {
+    it("Adds talk to list", async () => {
+      const { service, talksRepository } = await configure();
+
+      const status = await service.submitTalk(createTestSubmitTalkCommand());
+
+      expect(status).toEqual(new Success());
+      const talks = await talksRepository.findAll();
+      expect(talks).toEqual([createTestTalk()]);
+    });
   });
 
   describe("Talks", () => {
@@ -56,8 +70,8 @@ describe("Talks service", () => {
 });
 
 async function configure({ talks }: { talks?: Talk[] } = {}) {
-  const repository = new TalksRepository({ fileName: TEST_FILE });
-  await repository.saveAll(talks);
-  const service = new TalksService(repository);
-  return { service, repository };
+  const talksRepository = new TalksRepository({ fileName: TEST_FILE });
+  await talksRepository.saveAll(talks);
+  const service = new TalksService(talksRepository, new EventEmitter2());
+  return { service, talksRepository };
 }
