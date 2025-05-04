@@ -7,7 +7,7 @@ import { describe, expect, it } from "vitest";
 import { TalksApi } from "../../src/infrastructure/talks_api";
 import { createTestTalk } from "../data/testdata";
 
-describe("API", () => {
+describe("Talks API", () => {
   it("Query talks", async () => {
     const api = TalksApi.createNull();
 

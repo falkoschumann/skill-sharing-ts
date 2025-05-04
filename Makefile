@@ -1,4 +1,4 @@
-WORKSPACES=shared frontend backend
+WORKSPACES=shared backend frontend
 
 all: dist check
 

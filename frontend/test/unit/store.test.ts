@@ -5,11 +5,51 @@
 import { describe, expect, it } from "vitest";
 
 import { createStore } from "../../src/application/store";
-import { queryTalks, selectTalks } from "../../src/application/talks_slice";
+import {
+  changeUser,
+  queryTalks,
+  selectTalks,
+  selectUser,
+  start,
+} from "../../src/application/talks_slice";
 import { TalksApi } from "../../src/infrastructure/talks_api";
-import { createTestTalk } from "../data/testdata";
+import { createTestTalk, createTestUser } from "../data/testdata";
+import { UsersRepository } from "../../src/infrastructure/users_repository";
+import { User } from "../../src/domain/users";
 
 describe("Store", () => {
+  describe("User", () => {
+    describe("Change user", () => {
+      it("Updates user name", async () => {
+        const { store, usersRepository } = configure();
+
+        const user = createTestUser();
+        await store.dispatch(changeUser(user));
+
+        const settings = await usersRepository.load();
+        expect(selectUser(store.getState())).toEqual(user.username);
+        expect(settings).toEqual(user);
+      });
+    });
+
+    it("Anon is the default user", async () => {
+      const { store } = configure();
+
+      await store.dispatch(start());
+
+      expect(selectUser(store.getState())).toEqual("Anon");
+    });
+
+    it("Is stored user", async () => {
+      const user = createTestUser();
+      const { store } = configure({ user });
+
+      await store.dispatch(start());
+
+      expect(selectUser(store.getState())).toEqual(user.username);
+    });
+  });
+
   describe("Talks", () => {
     it("Lists all talks", async () => {
       const { store } = configure();
@@ -21,8 +61,9 @@ describe("Store", () => {
   });
 });
 
-function configure() {
-  const api = TalksApi.createNull();
-  const store = createStore(api);
-  return { store, api };
+function configure({ user }: { user?: User } = {}) {
+  const talksApi = TalksApi.createNull();
+  const usersRepository = UsersRepository.createNull({ user });
+  const store = createStore(talksApi, usersRepository);
+  return { store, talksApi, usersRepository };
 }

@@ -1,16 +1,19 @@
 // Copyright (c) 2025 Falko Schumann. All rights reserved. MIT license.
 
 import { Type } from "class-transformer";
-import { IsArray, IsString, ValidateNested } from "class-validator";
+import { IsArray, IsNotEmpty, IsString, ValidateNested } from "class-validator";
 
 export class Talk {
   @IsString()
+  @IsNotEmpty()
   title: string;
 
   @IsString()
+  @IsNotEmpty()
   presenter: string;
 
   @IsString()
+  @IsNotEmpty()
   summary: string;
 
   @IsArray()
@@ -33,9 +36,11 @@ export class Talk {
 
 export class Comment {
   @IsString()
+  @IsNotEmpty()
   author: string;
 
   @IsString()
+  @IsNotEmpty()
   message: string;
 
   constructor(author: string, message: string) {

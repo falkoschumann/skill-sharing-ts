@@ -1,6 +1,7 @@
 // Copyright (c) 2025 Falko Schumann. All rights reserved. MIT license.
 
 import { Comment, Talk } from "@skill-sharing/shared/domain";
+import { User } from "../../src/domain/users";
 
 export function createTestTalk({
   title = "Talk test title",
@@ -25,4 +26,8 @@ export function createTestComment({
   message = "Comment test message",
 } = {}): Comment {
   return { author, message };
+}
+
+export function createTestUser({ username = "User test username" } = {}): User {
+  return { username };
 }

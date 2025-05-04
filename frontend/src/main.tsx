@@ -6,13 +6,13 @@ import { Provider } from "react-redux";
 import "reflect-metadata";
 
 import { store } from "./application/store";
-import App from "./ui/app";
+import SkillSharing from "./ui/skill_sharing";
 
 const rootElement = document.getElementById("root")!;
 createRoot(rootElement).render(
   <StrictMode>
     <Provider store={store}>
-      <App />
+      <SkillSharing />
     </Provider>
   </StrictMode>,
 );

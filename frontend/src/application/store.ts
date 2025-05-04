@@ -4,10 +4,14 @@ import { configureStore } from "@reduxjs/toolkit";
 
 import talksReducer from "./talks_slice";
 import { TalksApi } from "../infrastructure/talks_api";
+import { UsersRepository } from "../infrastructure/users_repository";
 
-export const store = createStore(TalksApi.create());
+export const store = createStore(TalksApi.create(), UsersRepository.create());
 
-export function createStore(talksApi: TalksApi) {
+export function createStore(
+  talksApi: TalksApi,
+  userRepository: UsersRepository,
+) {
   return configureStore({
     reducer: {
       talks: talksReducer,
@@ -15,7 +19,7 @@ export function createStore(talksApi: TalksApi) {
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({
         thunk: {
-          extraArgument: { talksApi },
+          extraArgument: { talksApi, userRepository },
         },
       }),
   });
