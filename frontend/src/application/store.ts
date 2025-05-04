@@ -10,7 +10,7 @@ export const store = createStore(TalksApi.create(), UsersRepository.create());
 
 export function createStore(
   talksApi: TalksApi,
-  userRepository: UsersRepository,
+  usersRepository: UsersRepository,
 ) {
   return configureStore({
     reducer: {
@@ -19,7 +19,7 @@ export function createStore(
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({
         thunk: {
-          extraArgument: { talksApi, userRepository },
+          extraArgument: { talksApi, usersRepository },
         },
       }),
   });

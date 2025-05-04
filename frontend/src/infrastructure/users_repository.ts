@@ -19,7 +19,7 @@ export class UsersRepository {
     this.#storage = storage;
   }
 
-  async load(): Promise<User | undefined> {
+  async load() {
     const json = this.#storage.getItem(storageKey);
     if (json == null) {
       return;

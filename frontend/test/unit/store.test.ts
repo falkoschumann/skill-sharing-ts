@@ -7,7 +7,6 @@ import { describe, expect, it } from "vitest";
 import { createStore } from "../../src/application/store";
 import {
   changeUser,
-  queryTalks,
   selectTalks,
   selectUser,
   start,
@@ -18,20 +17,20 @@ import { UsersRepository } from "../../src/infrastructure/users_repository";
 import { createTestTalk, createTestUser } from "../data/testdata";
 
 describe("Store", () => {
-  describe("User", () => {
-    describe("Change user", () => {
-      it("Updates user name", async () => {
-        const { store, usersRepository } = configure();
+  describe("Change user", () => {
+    it("Updates user name", async () => {
+      const { store, usersRepository } = configure();
 
-        const user = createTestUser();
-        await store.dispatch(changeUser(user));
+      const user = createTestUser();
+      await store.dispatch(changeUser(user));
 
-        const settings = await usersRepository.load();
-        expect(selectUser(store.getState())).toEqual(user);
-        expect(settings).toEqual(user);
-      });
+      const settings = await usersRepository.load();
+      expect(selectUser(store.getState())).toEqual(user);
+      expect(settings).toEqual(user);
     });
+  });
 
+  describe("User", () => {
     it("Anon is the default user", async () => {
       const { store } = configure();
 
@@ -54,7 +53,7 @@ describe("Store", () => {
     it("Lists all talks", async () => {
       const { store } = configure();
 
-      await store.dispatch(queryTalks({}));
+      await store.dispatch(start());
 
       expect(selectTalks(store.getState())).toEqual([createTestTalk()]);
     });

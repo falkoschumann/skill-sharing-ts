@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import "bootstrap/dist/js/bootstrap.bundle.js";
 import "bootstrap/dist/css/bootstrap.css";
 
-import { changeUser, queryTalks, selectTalks, selectUser } from "../application/talks_slice";
+import { changeUser, selectTalks, selectUser, start } from "../application/talks_slice";
 import { useAppDispatch, useAppSelector } from "./hooks";
 import Talks from "./talks";
 import UserField from "./user_field";
@@ -14,7 +14,7 @@ export default function SkillSharing() {
   const talks = useAppSelector(selectTalks);
   const user = useAppSelector(selectUser);
 
-  useEffect(() => void dispatch(queryTalks({})), [dispatch]);
+  useEffect(() => void dispatch(start()), [dispatch]);
 
   return (
     <div className="container py-4 px-3 mx-auto">

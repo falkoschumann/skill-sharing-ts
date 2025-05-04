@@ -25,7 +25,7 @@ const initialState: TalksState = {
 type TalksThunkConfig = {
   extra: {
     talksApi: TalksApi;
-    userRepository: UsersRepository;
+    usersRepository: UsersRepository;
   };
 };
 
@@ -36,17 +36,14 @@ const talksSlice = createSlice({
     userChanged: (state, action: PayloadAction<User>) => {
       state.user = action.payload;
     },
+    talksUpdated: (state, action: PayloadAction<TalksQueryResult>) => {
+      state.talks = action.payload.talks;
+    },
   },
   extraReducers: (builder) => {
     // Change user
     builder.addCase(changeUser.fulfilled, (state, action) => {
       state.user = action.payload;
-    });
-
-    // TODO Replace with SSE
-    // Query talks
-    builder.addCase(queryTalks.fulfilled, (state, action) => {
-      state.talks = action.payload.talks;
     });
   },
   selectors: {
@@ -58,9 +55,13 @@ const talksSlice = createSlice({
 const start = createAsyncThunk<void, void, TalksThunkConfig>(
   "talks/start",
   async (_action, thunkApi) => {
-    const { userRepository } = thunkApi.extra;
+    const { talksApi, usersRepository } = thunkApi.extra;
 
-    const user = await userRepository.load();
+    // TODO Replace with SSE
+    const result = await talksApi.queryTalks({});
+    thunkApi.dispatch(talksUpdated(result));
+
+    const user = await usersRepository.load();
     thunkApi.dispatch(userChanged({ username: user?.username ?? "Anon" }));
   },
 );
@@ -68,8 +69,8 @@ const start = createAsyncThunk<void, void, TalksThunkConfig>(
 const changeUser = createAsyncThunk<User, User, TalksThunkConfig>(
   "talks/changeUser",
   async ({ username }, thunkApi) => {
-    const { userRepository } = thunkApi.extra;
-    await userRepository.store({ username });
+    const { usersRepository } = thunkApi.extra;
+    await usersRepository.store({ username });
     return { username };
   },
 );
@@ -86,7 +87,7 @@ const queryTalks = createAsyncThunk<
 export default talksSlice.reducer;
 
 // Sync actions
-const { userChanged } = talksSlice.actions;
+const { talksUpdated, userChanged } = talksSlice.actions;
 
 // Async thunks
 export { changeUser, start, queryTalks };
