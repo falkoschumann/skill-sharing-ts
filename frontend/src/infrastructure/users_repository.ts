@@ -25,7 +25,6 @@ export class UsersRepository {
       return;
     }
 
-    // TODO Validate user
     const user = JSON.parse(json) as User;
     return Promise.resolve(user);
   }
