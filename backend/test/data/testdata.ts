@@ -35,3 +35,9 @@ export function createTestSubmitTalkCommand({
 } = {}): SubmitTalkCommand {
   return { title, presenter, summary };
 }
+
+export function createTestTalksQueryResult({
+  talks = [createTestTalk()],
+} = {}) {
+  return { talks };
+}
