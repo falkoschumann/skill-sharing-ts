@@ -1,7 +1,7 @@
 // Copyright (c) 2025 Falko Schumann. All rights reserved. MIT license.
 
 import {
-  createSuccess,
+  type CommandStatus,
   type SubmitTalkCommand,
   type TalksQuery,
   type TalksQueryResult,
@@ -31,19 +31,19 @@ export class TalksApi extends EventTarget {
   }
 
   async submitTalk(command: SubmitTalkCommand) {
-    // TODO validate command status
-    const body = JSON.stringify(command);
-    await this.#fetch(`${BASE_URL}/${encodeURIComponent(command.title)}`, {
-      method: "PUT",
+    const response = await this.#fetch(`${BASE_URL}/submit-talk`, {
+      method: "POST",
       headers: { "Content-Type": "application/json" },
-      body,
+      body: JSON.stringify(command),
     });
     this.dispatchEvent(
       new CustomEvent(TALK_SUBMITTED_EVENT, {
         detail: command,
       }),
     );
-    return createSuccess();
+    const json = (await response.json()) as unknown;
+    // TODO validate command status
+    return json as CommandStatus;
   }
 
   trackTalksSubmitted() {
