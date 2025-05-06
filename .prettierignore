@@ -1,3 +1,7 @@
+# Project
+/backend/data
+
+# Build and test
 coverage/
 dist/
 testdata/
