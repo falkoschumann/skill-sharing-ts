@@ -14,7 +14,11 @@ import {
   createTestTalk,
   createTestTalksQueryResult,
 } from "../data/testdata";
-import { Success } from "../../src/domain/messages";
+import {
+  SubmitTalkCommand,
+  Success,
+  TalksQuery,
+} from "../../src/domain/messages";
 
 describe("Application", () => {
   let app: INestApplication<App>;
@@ -36,36 +40,29 @@ describe("Application", () => {
 
   describe("Submit talk", () => {
     it("Adds talk to list", async () => {
-      const status = await request(app.getHttpServer())
-        .post("/api/talks/submit-talk")
-        .set("Content-Type", "application/json")
-        .send(createTestSubmitTalkCommand());
+      const status = await submitTalk(app, createTestSubmitTalkCommand());
 
       expect(status.headers["content-type"]).toMatch(/json/);
       expect(status.status).toEqual(201);
       expect(status.body).toEqual(new Success());
 
-      const result = await request(app.getHttpServer()).get(
-        "/api/talks/query-talks",
-      );
+      const result = await queryTalks(app, {});
 
       expect(result.status).toEqual(200);
       expect(result.body).toEqual(createTestTalksQueryResult());
     });
 
     it("Reports an error when talk could not add", async () => {
-      const status = await request(app.getHttpServer())
-        .post("/api/talks/submit-talk")
-        .set("Content-Type", "application/json")
+      const status = await submitTalk(
+        app,
         // @ts-expect-error TS2322
-        .send(createTestSubmitTalkCommand({ presenter: null }));
+        createTestSubmitTalkCommand({ presenter: null }),
+      );
 
       expect(status.headers["content-type"]).toMatch(/json/);
       expect(status.status).toEqual(400);
 
-      const result = await request(app.getHttpServer()).get(
-        "/api/talks/query-talks",
-      );
+      const result = await queryTalks(app, {});
 
       expect(result.status).toEqual(200);
       expect(result.body).toEqual(createTestTalksQueryResult({ talks: [] }));
@@ -74,19 +71,11 @@ describe("Application", () => {
 
   describe("Talks", () => {
     it("Returns all talks", async () => {
-      await request(app.getHttpServer())
-        .post("/api/talks/submit-talk")
-        .set("Content-Type", "application/json")
-        .send(createTestSubmitTalkCommand({ title: "Foo" }));
-      await request(app.getHttpServer())
-        .post("/api/talks/submit-talk")
-        .set("Content-Type", "application/json")
-        .send(createTestSubmitTalkCommand({ title: "Bar" }));
+      await submitTalk(app, createTestSubmitTalkCommand({ title: "Foo" }));
+      await submitTalk(app, createTestSubmitTalkCommand({ title: "Bar" }));
       // TODO Add comment to talk Bar
 
-      const result = await request(app.getHttpServer()).get(
-        "/api/talks/query-talks",
-      );
+      const result = await queryTalks(app, {});
 
       expect(result.status).toEqual(200);
       expect(result.body).toEqual({
@@ -99,14 +88,9 @@ describe("Application", () => {
     });
 
     it("Returns a single talk when client asks for a specific talk", async () => {
-      await request(app.getHttpServer())
-        .post("/api/talks/submit-talk")
-        .set("Content-Type", "application/json")
-        .send(createTestSubmitTalkCommand({ title: "Foo" }));
+      await submitTalk(app, createTestSubmitTalkCommand({ title: "Foo" }));
 
-      const result = await request(app.getHttpServer()).get(
-        "/api/talks/query-talks?title=Foo",
-      );
+      const result = await queryTalks(app, { title: "Foo" });
 
       expect(result.status).toEqual(200);
       expect(result.body).toEqual({
@@ -114,14 +98,29 @@ describe("Application", () => {
       });
     });
 
-    it("Returns no talk when client asks for a specific talk that does not exist", () => {
-      return request(app.getHttpServer())
-        .get(
-          "/api/talks/query-talks?title=" +
-            encodeURIComponent("Non existing talk"),
-        )
-        .expect(200)
-        .expect(JSON.stringify({ talks: [] }));
+    it("Returns no talk when client asks for a specific talk that does not exist", async () => {
+      const result = await queryTalks(app, { title: "Non existing talk" });
+
+      expect(result.status).toEqual(200);
+      expect(result.body).toEqual({ talks: [] });
     });
   });
 });
+
+async function submitTalk(
+  app: INestApplication<App>,
+  command: SubmitTalkCommand,
+) {
+  return request(app.getHttpServer())
+    .post("/api/talks/submit-talk")
+    .set("Content-Type", "application/json")
+    .send(command);
+}
+
+async function queryTalks(app: INestApplication<App>, query: TalksQuery) {
+  let url = "/api/talks/query-talks";
+  if (query.title != null) {
+    url += `?title=${encodeURIComponent(query.title)}`;
+  }
+  return request(app.getHttpServer()).get(url);
+}
