@@ -1,6 +1,7 @@
 // Copyright (c) 2025 Falko Schumann. All rights reserved. MIT license.
 
 import { Injectable, Logger } from "@nestjs/common";
+import { EventEmitter2 } from "@nestjs/event-emitter";
 
 import {
   SubmitTalkCommand,
@@ -9,7 +10,6 @@ import {
   TalksQueryResult,
 } from "../domain/messages";
 import { TalksRepository } from "../infrastructure/talks_repository";
-import { EventEmitter2 } from "@nestjs/event-emitter";
 
 export class TalksChanged {
   static type = "talks-changed";
@@ -18,8 +18,8 @@ export class TalksChanged {
 @Injectable()
 export class TalksService {
   readonly #logger = new Logger(TalksService.name);
-  #repository;
-  #eventEmitter;
+  readonly #repository;
+  readonly #eventEmitter;
 
   constructor(repository: TalksRepository, eventEmitter: EventEmitter2) {
     this.#repository = repository;
@@ -35,6 +35,8 @@ export class TalksService {
   }
 
   async queryTalks(query: TalksQuery): Promise<TalksQueryResult> {
+    this.#logger.log("Query talks", query);
+
     if (query?.title != null) {
       const talk = await this.#repository.findByTitle(query.title);
       const talks = talk ? [talk] : [];

@@ -13,7 +13,7 @@ export class UsersRepository {
     return new UsersRepository(new StorageStub(user) as unknown as Storage);
   }
 
-  #storage;
+  readonly #storage;
 
   constructor(storage: Storage) {
     this.#storage = storage;

@@ -11,7 +11,7 @@ import {
 
 @Controller("api/talks")
 export class TalksController {
-  #service;
+  readonly #service;
 
   constructor(service: TalksService) {
     this.#service = service;

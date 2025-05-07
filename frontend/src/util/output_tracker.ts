@@ -5,10 +5,10 @@ export class OutputTracker<T = unknown> {
     return new OutputTracker<T>(eventTarget, event);
   }
 
-  #eventTarget;
-  #event;
-  #tracker;
-  #data: T[] = [];
+  readonly #eventTarget;
+  readonly #event;
+  readonly #tracker;
+  readonly #data: T[] = [];
 
   constructor(eventTarget: EventTarget, event: string) {
     this.#eventTarget = eventTarget;

@@ -17,7 +17,7 @@ export const repositoryConfigurationFactory = registerAs("repository", () => ({
 
 @Injectable()
 export class TalksRepository {
-  #configuration: RepositoryConfiguration;
+  readonly #configuration: RepositoryConfiguration;
 
   constructor(
     @Inject(repositoryConfigurationFactory.KEY)

@@ -24,7 +24,7 @@ const initialState: TalksState = {
 
 type TalksThunkConfig = {
   readonly state: { talks: TalksState };
-  extra: {
+  readonly extra: {
     readonly talksApi: TalksApi;
     readonly usersRepository: UsersRepository;
   };

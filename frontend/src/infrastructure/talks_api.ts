@@ -23,7 +23,7 @@ export class TalksApi extends EventTarget {
     return new TalksApi(fetchStub as unknown as FetchType);
   }
 
-  #fetch;
+  readonly #fetch;
 
   constructor(fetch: FetchType) {
     super();
@@ -51,6 +51,7 @@ export class TalksApi extends EventTarget {
   }
 
   async queryTalks(_query: TalksQuery): Promise<TalksQueryResult> {
+    // TODO Replace with server-sent events
     const response = await this.#fetch("/api/talks/query-talks");
     const result: unknown = await response.json();
     return result as TalksQueryResult;
