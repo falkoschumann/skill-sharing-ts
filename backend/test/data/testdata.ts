@@ -36,8 +36,21 @@ export function createTestSubmitTalkCommand({
   return { title, presenter, summary };
 }
 
+export function createTestAddCommentCommand({
+  title = "Talk test title",
+  comment = createTestComment(),
+} = {}) {
+  return { title, comment };
+}
+
 export function createTestTalksQueryResult({
   talks = [createTestTalk()],
+} = {}) {
+  return { talks };
+}
+
+export function createTestTalksQueryResultWithComment({
+  talks = [createTestTalkWithComment()],
 } = {}) {
   return { talks };
 }

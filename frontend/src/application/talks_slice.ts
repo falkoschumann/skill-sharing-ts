@@ -83,12 +83,19 @@ const submitTalk = createAsyncThunk<
 >("talks/submitTalk", async ({ title, summary }, thunkApi) => {
   const { talksApi } = thunkApi.extra;
   const { username } = selectUser(thunkApi.getState());
-  const command = {
-    title,
-    presenter: username,
-    summary,
-  };
+  const command = { title, presenter: username, summary };
   return talksApi.submitTalk(command);
+});
+
+const addComment = createAsyncThunk<
+  CommandStatus,
+  { title: string; message: string },
+  TalksThunkConfig
+>("talks/addComment", async ({ title, message }, thunkApi) => {
+  const { talksApi } = thunkApi.extra;
+  const { username } = selectUser(thunkApi.getState());
+  const command = { title, comment: { author: username, message } };
+  return talksApi.addComment(command);
 });
 
 export default talksSlice.reducer;
@@ -97,7 +104,7 @@ export default talksSlice.reducer;
 const { talksUpdated, userChanged } = talksSlice.actions;
 
 // Async thunks
-export { changeUser, start, submitTalk };
+export { addComment, changeUser, start, submitTalk };
 
 // Selectors
 export const { selectTalks, selectUser } = talksSlice.selectors;

@@ -9,7 +9,7 @@ import {
   ValidateNested,
 } from "class-validator";
 
-import { Talk } from "./talks";
+import { Comment, Talk } from "./talks";
 
 export class SubmitTalkCommand {
   @IsString()
@@ -28,6 +28,21 @@ export class SubmitTalkCommand {
     this.title = title;
     this.presenter = presenter;
     this.summary = summary;
+  }
+}
+
+export class AddCommentCommand {
+  @IsString()
+  @IsNotEmpty()
+  title: string;
+
+  @ValidateNested()
+  @Type(() => Comment)
+  comment: Comment;
+
+  constructor(title: string, comment: Comment) {
+    this.title = title;
+    this.comment = comment;
   }
 }
 

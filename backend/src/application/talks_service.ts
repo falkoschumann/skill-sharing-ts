@@ -4,6 +4,8 @@ import { Injectable, Logger } from "@nestjs/common";
 import { EventEmitter2 } from "@nestjs/event-emitter";
 
 import {
+  AddCommentCommand,
+  Failure,
   SubmitTalkCommand,
   Success,
   TalksQuery,
@@ -30,6 +32,22 @@ export class TalksService {
     this.#logger.log("Submit talk", command);
 
     await this.#repository.save({ ...command, comments: [] });
+    this.#eventEmitter.emit(TalksChanged.type, new TalksChanged());
+    return new Success();
+  }
+
+  async addComment(command: AddCommentCommand) {
+    this.#logger.log("Add comment", command);
+
+    let talk = await this.#repository.findByTitle(command.title);
+    if (talk == null) {
+      return new Failure(
+        `The comment cannot be added because the talk "${command.title}" does not exist.`,
+      );
+    }
+
+    talk = { ...talk, comments: [...talk.comments, command.comment] };
+    await this.#repository.save(talk);
     this.#eventEmitter.emit(TalksChanged.type, new TalksChanged());
     return new Success();
   }

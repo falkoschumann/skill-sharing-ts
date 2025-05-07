@@ -8,16 +8,6 @@ import { TalksApi } from "../../src/infrastructure/talks_api";
 import { createTestTalk } from "../data/testdata";
 
 describe("Talks API", () => {
-  it("Query talks", async () => {
-    const api = TalksApi.createNull();
-
-    const result = await api.queryTalks({});
-
-    expect(result).toEqual({
-      talks: [createTestTalk()],
-    });
-  });
-
   it("Submits talk", async () => {
     const { api } = configure();
     const talksPut = api.trackTalksSubmitted();
@@ -31,6 +21,36 @@ describe("Talks API", () => {
     expect(talksPut.data).toEqual([
       { title: "title-1", presenter: "presenter-1", summary: "summary-1" },
     ]);
+  });
+
+  it("Add comment", async () => {
+    const { api } = configure();
+    const commentsAdded = api.trackCommentsAdded();
+
+    await api.addComment({
+      title: "title-1",
+      comment: {
+        author: "author-1",
+        message: "message-1",
+      },
+    });
+
+    expect(commentsAdded.data).toEqual([
+      {
+        title: "title-1",
+        comment: { author: "author-1", message: "message-1" },
+      },
+    ]);
+  });
+
+  it("Query talks", async () => {
+    const api = TalksApi.createNull();
+
+    const result = await api.queryTalks({});
+
+    expect(result).toEqual({
+      talks: [createTestTalk()],
+    });
   });
 });
 

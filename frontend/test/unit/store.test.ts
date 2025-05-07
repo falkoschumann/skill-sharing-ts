@@ -6,6 +6,7 @@ import { describe, expect, it } from "vitest";
 
 import { createStore } from "../../src/application/store";
 import {
+  addComment,
   changeUser,
   selectTalks,
   selectUser,
@@ -64,6 +65,27 @@ describe("Store", () => {
 
       expect(talksSubmitted.data).toEqual([
         { title: "Foobar", presenter: "Anon", summary: "Lorem ipsum" },
+      ]);
+    });
+  });
+
+  describe("Adds comment", () => {
+    it("Adds comment to an existing talk", async () => {
+      const { store, talksApi } = configure();
+      const commentsAdded = talksApi.trackCommentsAdded();
+
+      await store.dispatch(
+        addComment({
+          title: "Foobar",
+          message: "Lorem ipsum",
+        }),
+      );
+
+      expect(commentsAdded.data).toEqual([
+        {
+          title: "Foobar",
+          comment: { author: "Anon", message: "Lorem ipsum" },
+        },
       ]);
     });
   });

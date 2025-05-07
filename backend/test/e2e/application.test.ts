@@ -8,17 +8,23 @@ import request from "supertest";
 import { App } from "supertest/types";
 import { beforeEach, describe, expect, it } from "vitest";
 
-import { AppModule } from "../../src/app_module";
 import {
-  createTestSubmitTalkCommand,
-  createTestTalk,
-  createTestTalksQueryResult,
-} from "../data/testdata";
-import {
+  AddCommentCommand,
+  Failure,
   SubmitTalkCommand,
   Success,
   TalksQuery,
 } from "../../src/domain/messages";
+import { AppModule } from "../../src/app_module";
+import {
+  createTestAddCommentCommand,
+  createTestComment,
+  createTestSubmitTalkCommand,
+  createTestTalk,
+  createTestTalksQueryResult,
+  createTestTalksQueryResultWithComment,
+  createTestTalkWithComment,
+} from "../data/testdata";
 
 describe("Application", () => {
   let app: INestApplication<App>;
@@ -69,19 +75,62 @@ describe("Application", () => {
     });
   });
 
+  describe("Add comment", () => {
+    it("Adds comment to an existing talk", async () => {
+      await submitTalk(app, createTestSubmitTalkCommand());
+
+      const status = await addComment(app, createTestAddCommentCommand());
+
+      expect(status.status).toEqual(201);
+      expect(status.body).toEqual(new Success());
+      const result = await queryTalks(app, {});
+      expect(result.status).toEqual(200);
+      expect(result.body).toEqual(createTestTalksQueryResultWithComment());
+    });
+
+    it("Reports an error when talk does not exists", async () => {
+      await submitTalk(app, createTestSubmitTalkCommand());
+
+      const status = await addComment(
+        app,
+        createTestAddCommentCommand({ title: "Non existing talk" }),
+      );
+
+      expect(status.status).toEqual(400);
+      expect(status.body).toEqual(
+        new Failure(
+          'The comment cannot be added because the talk "Non existing talk" does not exist.',
+        ),
+      );
+    });
+
+    it("Reports an error when comment could not add", async () => {
+      await submitTalk(app, createTestSubmitTalkCommand());
+
+      const status = await addComment(
+        app,
+        createTestAddCommentCommand({
+          // @ts-expect-error TS2322
+          comment: createTestComment({ author: null }),
+        }),
+      );
+
+      expect(status.status).toEqual(400);
+    });
+  });
+
   describe("Talks", () => {
     it("Returns all talks", async () => {
       await submitTalk(app, createTestSubmitTalkCommand({ title: "Foo" }));
+      await addComment(app, createTestAddCommentCommand({ title: "Foo" }));
       await submitTalk(app, createTestSubmitTalkCommand({ title: "Bar" }));
-      // TODO Add comment to talk Bar
 
       const result = await queryTalks(app, {});
 
       expect(result.status).toEqual(200);
       expect(result.body).toEqual({
         talks: [
-          createTestTalk({ title: "Foo" }),
-          //createTestTalkWithComment({ title: "Bar" }),
+          createTestTalkWithComment({ title: "Foo" }),
           createTestTalk({ title: "Bar" }),
         ],
       });
@@ -113,6 +162,16 @@ async function submitTalk(
 ) {
   return request(app.getHttpServer())
     .post("/api/talks/submit-talk")
+    .set("Content-Type", "application/json")
+    .send(command);
+}
+
+async function addComment(
+  app: INestApplication<App>,
+  command: AddCommentCommand,
+) {
+  return request(app.getHttpServer())
+    .post(`/api/talks/add-comment`)
     .set("Content-Type", "application/json")
     .send(command);
 }
