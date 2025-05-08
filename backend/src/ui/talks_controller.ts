@@ -8,11 +8,13 @@ import {
   HttpCode,
   HttpException,
   HttpStatus,
+  MessageEvent,
   Post,
   Query,
+  Sse,
 } from "@nestjs/common";
 
-import { TalksService } from "../application/talks_service";
+import { TalksChanged, TalksService } from "../application/talks_service";
 import {
   AddCommentCommand,
   CommandStatus,
@@ -21,9 +23,12 @@ import {
   SubmitTalkCommand,
   TalksQueryResult,
 } from "../domain/messages";
+import { Observable, Subject } from "rxjs";
+import { OnEvent } from "@nestjs/event-emitter";
 
 @Controller("api/talks")
 export class TalksController {
+  readonly #talksUpdated = new Subject<MessageEvent>();
   readonly #service;
 
   constructor(service: TalksService) {
@@ -57,5 +62,16 @@ export class TalksController {
   @Header("Content-Type", "application/json")
   async queryTalks(@Query("title") title: string): Promise<TalksQueryResult> {
     return this.#service.queryTalks({ title });
+  }
+
+  @Sse("events")
+  talksChanged(): Observable<MessageEvent> {
+    return this.#talksUpdated.asObservable();
+  }
+
+  @OnEvent(TalksChanged.type)
+  async handleTalksChanged(_payload: TalksChanged) {
+    const talks = await this.#service.queryTalks({});
+    this.#talksUpdated.next({ data: talks });
   }
 }
