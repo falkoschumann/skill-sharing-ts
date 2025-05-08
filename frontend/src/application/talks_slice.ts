@@ -98,13 +98,23 @@ const addComment = createAsyncThunk<
   return talksApi.addComment(command);
 });
 
+const deleteTalk = createAsyncThunk<
+  CommandStatus,
+  { title: string },
+  TalksThunkConfig
+>("talks/deleteTalk", async ({ title }, thunkApi) => {
+  const { talksApi } = thunkApi.extra;
+  const command = { title };
+  return talksApi.deleteTalk(command);
+});
+
 export default talksSlice.reducer;
 
 // Sync actions
 const { talksUpdated, userChanged } = talksSlice.actions;
 
 // Async thunks
-export { addComment, changeUser, start, submitTalk };
+export { addComment, changeUser, deleteTalk, start, submitTalk };
 
 // Selectors
 export const { selectTalks, selectUser } = talksSlice.selectors;

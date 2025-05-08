@@ -5,6 +5,7 @@ import {
   Controller,
   Get,
   Header,
+  HttpCode,
   HttpException,
   HttpStatus,
   Post,
@@ -15,6 +16,7 @@ import { TalksService } from "../application/talks_service";
 import {
   AddCommentCommand,
   CommandStatus,
+  DeleteTalkCommand,
   Failure,
   SubmitTalkCommand,
   TalksQueryResult,
@@ -42,6 +44,13 @@ export class TalksController {
       throw new HttpException(status, HttpStatus.BAD_REQUEST);
     }
     return status;
+  }
+
+  @Post("delete-talk")
+  @HttpCode(200)
+  @Header("Content-Type", "application/json")
+  async deleteTalk(@Body() command: DeleteTalkCommand): Promise<CommandStatus> {
+    return this.#service.deleteTalk(command);
   }
 
   @Get("query-talks")

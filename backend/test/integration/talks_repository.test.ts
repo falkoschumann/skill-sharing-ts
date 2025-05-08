@@ -130,4 +130,33 @@ describe("Talks repository", () => {
       await expect(result).rejects.toThrow(SyntaxError);
     });
   });
+
+  describe("Delete", () => {
+    it("Deletes talk", async () => {
+      const repository = new TalksRepository({ fileName: testFile });
+      const talk = createTestTalk();
+      await repository.save(talk);
+
+      await repository.deleteByTitle(talk.title);
+
+      const talks = await repository.findAll();
+      expect(talks).toEqual([]);
+    });
+
+    it("Does not reports an error when file does not exist", async () => {
+      const repository = new TalksRepository({ fileName: testFile });
+
+      const talks = await repository.deleteByTitle("Any title");
+
+      expect(talks).toBeUndefined();
+    });
+
+    it("Reports an error when file is corrupt", async () => {
+      const repository = new TalksRepository({ fileName: corruptedFile });
+
+      const result = repository.deleteByTitle("Any title");
+
+      await expect(result).rejects.toThrow(SyntaxError);
+    });
+  });
 });

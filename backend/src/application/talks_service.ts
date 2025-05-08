@@ -5,6 +5,7 @@ import { EventEmitter2 } from "@nestjs/event-emitter";
 
 import {
   AddCommentCommand,
+  DeleteTalkCommand,
   Failure,
   SubmitTalkCommand,
   Success,
@@ -48,6 +49,14 @@ export class TalksService {
 
     talk = { ...talk, comments: [...talk.comments, command.comment] };
     await this.#repository.save(talk);
+    this.#eventEmitter.emit(TalksChanged.type, new TalksChanged());
+    return new Success();
+  }
+
+  async deleteTalk(command: DeleteTalkCommand) {
+    this.#logger.log("Delete talk", command);
+
+    await this.#repository.deleteByTitle(command.title);
     this.#eventEmitter.emit(TalksChanged.type, new TalksChanged());
     return new Success();
   }

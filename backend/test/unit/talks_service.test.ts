@@ -10,6 +10,7 @@ import { Talk } from "../../src/domain/talks";
 import { TalksRepository } from "../../src/infrastructure/talks_repository";
 import {
   createTestAddCommentCommand,
+  createTestDeleteTalkCommand,
   createTestSubmitTalkCommand,
   createTestTalk,
   createTestTalkWithComment,
@@ -69,6 +70,30 @@ describe("Talks service", () => {
       );
       const talks = await talksRepository.findAll();
       expect(talks).toEqual([createTestTalk()]);
+    });
+  });
+
+  describe("Delete talk", () => {
+    it("Removes talk from list", async () => {
+      const { service, talksRepository } = await configure({
+        talks: [createTestTalk()],
+      });
+
+      const status = await service.deleteTalk(createTestDeleteTalkCommand());
+
+      expect(status).toEqual(new Success());
+      const talks = await talksRepository.findAll();
+      expect(talks).toEqual([]);
+    });
+
+    it("Does not report an error when talk does not exist", async () => {
+      const { service, talksRepository } = await configure();
+
+      const status = await service.deleteTalk(createTestDeleteTalkCommand());
+
+      expect(status).toEqual(new Success());
+      const talks = await talksRepository.findAll();
+      expect(talks).toEqual([]);
     });
   });
 

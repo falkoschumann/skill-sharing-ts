@@ -13,6 +13,10 @@ export interface AddCommentCommand {
   readonly comment: Comment;
 }
 
+export interface DeleteTalkCommand {
+  readonly title: string;
+}
+
 export type CommandStatus = Success | Failure;
 
 export interface Success {

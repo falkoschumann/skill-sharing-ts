@@ -1,7 +1,11 @@
 // Copyright (c) 2025 Falko Schumann. All rights reserved. MIT license.
 
 import { Comment, Talk } from "../../src/domain/talks";
-import { SubmitTalkCommand } from "../../src/domain/messages";
+import {
+  AddCommentCommand,
+  DeleteTalkCommand,
+  SubmitTalkCommand,
+} from "../../src/domain/messages";
 
 export function createTestTalk({
   title = "Talk test title",
@@ -39,8 +43,14 @@ export function createTestSubmitTalkCommand({
 export function createTestAddCommentCommand({
   title = "Talk test title",
   comment = createTestComment(),
-} = {}) {
+} = {}): AddCommentCommand {
   return { title, comment };
+}
+
+export function createTestDeleteTalkCommand({
+  title = "Talk test title",
+} = {}): DeleteTalkCommand {
+  return { title };
 }
 
 export function createTestTalksQueryResult({

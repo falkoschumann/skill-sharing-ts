@@ -46,6 +46,16 @@ export class AddCommentCommand {
   }
 }
 
+export class DeleteTalkCommand {
+  @IsString()
+  @IsNotEmpty()
+  title: string;
+
+  constructor(title: string) {
+    this.title = title;
+  }
+}
+
 export type CommandStatus = Success | Failure;
 
 export class Success {

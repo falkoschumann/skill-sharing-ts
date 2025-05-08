@@ -3,6 +3,7 @@
 import {
   type AddCommentCommand,
   type CommandStatus,
+  type DeleteTalkCommand,
   type SubmitTalkCommand,
   type TalksQuery,
   type TalksQueryResult,
@@ -15,6 +16,7 @@ const BASE_URL = "/api/talks";
 
 const TALK_SUBMITTED_EVENT = "talk-submitted";
 const COMMENT_ADDED_EVENT = "comment-added";
+const TALK_DELETED_EVENT = "talk-deleted";
 
 export class TalksApi extends EventTarget {
   static create() {
@@ -39,9 +41,7 @@ export class TalksApi extends EventTarget {
       body: JSON.stringify(command),
     });
     this.dispatchEvent(
-      new CustomEvent(TALK_SUBMITTED_EVENT, {
-        detail: command,
-      }),
+      new CustomEvent(TALK_SUBMITTED_EVENT, { detail: command }),
     );
     const json = (await response.json()) as unknown;
     // TODO validate command status
@@ -58,11 +58,8 @@ export class TalksApi extends EventTarget {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(command),
     });
-    // TODO validate command status
     this.dispatchEvent(
-      new CustomEvent(COMMENT_ADDED_EVENT, {
-        detail: command,
-      }),
+      new CustomEvent(COMMENT_ADDED_EVENT, { detail: command }),
     );
     const json = (await response.json()) as unknown;
     // TODO validate command status
@@ -71,6 +68,24 @@ export class TalksApi extends EventTarget {
 
   trackCommentsAdded() {
     return OutputTracker.create(this, COMMENT_ADDED_EVENT);
+  }
+
+  async deleteTalk(command: DeleteTalkCommand) {
+    const response = await this.#fetch(`${BASE_URL}/delete-talk`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(command),
+    });
+    this.dispatchEvent(
+      new CustomEvent(TALK_DELETED_EVENT, { detail: command }),
+    );
+    const json = (await response.json()) as unknown;
+    // TODO validate command status
+    return json as CommandStatus;
+  }
+
+  trackTalksDeleted() {
+    return OutputTracker.create(this, TALK_DELETED_EVENT);
   }
 
   async queryTalks(_query: TalksQuery): Promise<TalksQueryResult> {

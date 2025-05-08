@@ -8,6 +8,7 @@ import { createStore } from "../../src/application/store";
 import {
   addComment,
   changeUser,
+  deleteTalk,
   selectTalks,
   selectUser,
   start,
@@ -87,6 +88,17 @@ describe("Store", () => {
           comment: { author: "Anon", message: "Lorem ipsum" },
         },
       ]);
+    });
+  });
+
+  describe("Delete talk", () => {
+    it("Removes talk from list", async () => {
+      const { store, talksApi } = configure();
+      const talksDeleted = talksApi.trackTalksDeleted();
+
+      await store.dispatch(deleteTalk({ title: "Foobar" }));
+
+      expect(talksDeleted.data).toEqual([{ title: "Foobar" }]);
     });
   });
 

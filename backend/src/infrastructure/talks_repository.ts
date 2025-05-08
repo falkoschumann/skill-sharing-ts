@@ -51,6 +51,12 @@ export class TalksRepository {
     await this.#store(dto);
   }
 
+  async deleteByTitle(title: string): Promise<void> {
+    const talks = await this.#load();
+    delete talks[title];
+    await this.#store(talks);
+  }
+
   async #load() {
     try {
       const { fileName } = this.#configuration;

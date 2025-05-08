@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import "bootstrap/dist/js/bootstrap.bundle.js";
 import "bootstrap/dist/css/bootstrap.css";
 
-import { addComment, changeUser, selectTalks, selectUser, start, submitTalk } from "../application/talks_slice";
+import { addComment, changeUser, deleteTalk, selectTalks, selectUser, start, submitTalk } from "../application/talks_slice";
 import { useAppDispatch, useAppSelector } from "./hooks";
 import Talks from "./talks";
 import UserField from "./user_field";
@@ -21,7 +21,7 @@ export default function SkillSharing() {
     <div className="container py-4 px-3 mx-auto">
       <h1>Skill Sharing</h1>
       <UserField user={user} onUsernameChanged={(username) => void dispatch(changeUser({ username }))} />
-      <Talks talks={talks} onCommentAdded={(comment) => void dispatch(addComment(comment))} />
+      <Talks talks={talks} onCommentAdded={(comment) => void dispatch(addComment(comment))} onTalkDeleted={(talk) => void dispatch(deleteTalk(talk))} />
       <TalkForm onTalkSubmitted={(talk) => void dispatch(submitTalk(talk))} />
     </div>
   );

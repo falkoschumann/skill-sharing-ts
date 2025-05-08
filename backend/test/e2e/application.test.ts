@@ -10,6 +10,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 
 import {
   AddCommentCommand,
+  DeleteTalkCommand,
   Failure,
   SubmitTalkCommand,
   Success,
@@ -19,6 +20,7 @@ import { AppModule } from "../../src/app_module";
 import {
   createTestAddCommentCommand,
   createTestComment,
+  createTestDeleteTalkCommand,
   createTestSubmitTalkCommand,
   createTestTalk,
   createTestTalksQueryResult,
@@ -119,6 +121,27 @@ describe("Application", () => {
     });
   });
 
+  describe("Delete talk", () => {
+    it("Deletes an existing talk", async () => {
+      await submitTalk(app, createTestSubmitTalkCommand());
+
+      const status = await deleteTalk(app, createTestDeleteTalkCommand());
+
+      expect(status.status).toEqual(200);
+      expect(status.body).toEqual(new Success());
+    });
+
+    it("Reports no error when talk does not exist", async () => {
+      const status = await deleteTalk(
+        app,
+        createTestDeleteTalkCommand({ title: "non-existing-talk" }),
+      );
+
+      expect(status.status).toEqual(200);
+      expect(status.body).toEqual(new Success());
+    });
+  });
+
   describe("Talks", () => {
     it("Returns all talks", async () => {
       await submitTalk(app, createTestSubmitTalkCommand({ title: "Foo" }));
@@ -172,6 +195,16 @@ async function addComment(
 ) {
   return request(app.getHttpServer())
     .post(`/api/talks/add-comment`)
+    .set("Content-Type", "application/json")
+    .send(command);
+}
+
+async function deleteTalk(
+  app: INestApplication<App>,
+  command: DeleteTalkCommand,
+) {
+  return request(app.getHttpServer())
+    .post("/api/talks/delete-talk")
     .set("Content-Type", "application/json")
     .send(command);
 }
