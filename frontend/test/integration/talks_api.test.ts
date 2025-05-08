@@ -4,10 +4,30 @@
 
 import { describe, expect, it } from "vitest";
 
+import { SseClient } from "../../src/infrastructure/sse_client";
 import { TalksApi } from "../../src/infrastructure/talks_api";
 import { createTestTalk } from "../data/testdata";
 
 describe("Talks API", () => {
+  it("Query talks", async () => {
+    const { api, sseClient } = configure();
+    const events: Event[] = [];
+    const result = new Promise<void>((resolve) =>
+      sseClient.addEventListener("message", () => resolve()),
+    );
+    api.addEventListener("talks-updated", (event) => events.push(event));
+
+    await api.connect();
+    sseClient.simulateMessage(JSON.stringify({ talks: [createTestTalk()] }));
+    await result;
+
+    expect(events).toEqual([
+      expect.objectContaining({
+        talks: [createTestTalk()],
+      }),
+    ]);
+  });
+
   it("Submits talk", async () => {
     const { api } = configure();
     const talksPut = api.trackTalksSubmitted();
@@ -23,7 +43,7 @@ describe("Talks API", () => {
     ]);
   });
 
-  it("Add comment", async () => {
+  it("Adds comment", async () => {
     const { api } = configure();
     const commentsAdded = api.trackCommentsAdded();
 
@@ -43,18 +63,20 @@ describe("Talks API", () => {
     ]);
   });
 
-  it("Query talks", async () => {
-    const api = TalksApi.createNull();
+  it("Deletes talk", async () => {
+    const { api } = configure();
+    const talksDeleted = api.trackTalksDeleted();
 
-    const result = await api.queryTalks({});
+    await api.deleteTalk({ title: "title-1" });
 
-    expect(result).toEqual({
-      talks: [createTestTalk()],
-    });
+    expect(talksDeleted.data).toEqual([{ title: "title-1" }]);
   });
 });
 
 function configure() {
-  const api = TalksApi.createNull();
-  return { api };
+  const sseClient = SseClient.createNull();
+  const api = new TalksApi(sseClient, () =>
+    Promise.resolve(Response.json({ isSuccess: true })),
+  );
+  return { api, sseClient };
 }

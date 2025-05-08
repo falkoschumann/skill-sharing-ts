@@ -104,9 +104,10 @@ describe("Store", () => {
 
   describe("Talks", () => {
     it("Lists all talks", async () => {
-      const { store } = configure();
+      const { store, talksApi } = configure();
 
       await store.dispatch(start());
+      talksApi.simulateMessage(JSON.stringify({ talks: [createTestTalk()] }));
 
       expect(selectTalks(store.getState())).toEqual([createTestTalk()]);
     });

@@ -66,6 +66,7 @@ export class TalksController {
 
   @Sse("events")
   talksChanged(): Observable<MessageEvent> {
+    setTimeout(() => void this.handleTalksChanged(new TalksChanged()));
     return this.#talksUpdated.asObservable();
   }
 

@@ -2,12 +2,12 @@
 
 import {
   type AddCommentCommand,
-  type CommandStatus,
   type DeleteTalkCommand,
   type SubmitTalkCommand,
-  type TalksQuery,
   type TalksQueryResult,
 } from "../domain/messages";
+import { type Talk } from "../domain/talks";
+import { SseClient } from "./sse_client";
 import { OutputTracker } from "../util/output_tracker";
 
 type FetchType = typeof globalThis.fetch;
@@ -18,24 +18,53 @@ const TALK_SUBMITTED_EVENT = "talk-submitted";
 const COMMENT_ADDED_EVENT = "comment-added";
 const TALK_DELETED_EVENT = "talk-deleted";
 
+export class TalksUpdatedEvent extends Event {
+  static TYPE = "talks-updated";
+
+  talks: Talk[];
+
+  constructor(talks: Talk[]) {
+    super(TalksUpdatedEvent.TYPE);
+    this.talks = talks;
+  }
+}
+
 export class TalksApi extends EventTarget {
   static create() {
-    return new TalksApi(globalThis.fetch.bind(globalThis));
+    return new TalksApi(SseClient.create(), globalThis.fetch.bind(globalThis));
   }
 
   static createNull() {
-    return new TalksApi(fetchStub as unknown as FetchType);
+    return new TalksApi(SseClient.createNull(), fetchStub);
   }
 
+  readonly #talksClient;
   readonly #fetch;
 
-  constructor(fetch: FetchType) {
+  constructor(talksClient: SseClient, fetch: FetchType) {
     super();
+    this.#talksClient = talksClient;
     this.#fetch = fetch;
+
+    this.#talksClient.addEventListener("message", (event) =>
+      this.#handleMessage(event as MessageEvent<string>),
+    );
+  }
+
+  async connect() {
+    await this.#talksClient.connect(`${BASE_URL}/events`);
+  }
+
+  async close() {
+    await this.#talksClient.close();
+  }
+
+  simulateMessage(message: string) {
+    this.#talksClient.simulateMessage(message);
   }
 
   async submitTalk(command: SubmitTalkCommand) {
-    const response = await this.#fetch(`${BASE_URL}/submit-talk`, {
+    await this.#fetch(`${BASE_URL}/submit-talk`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(command),
@@ -43,9 +72,6 @@ export class TalksApi extends EventTarget {
     this.dispatchEvent(
       new CustomEvent(TALK_SUBMITTED_EVENT, { detail: command }),
     );
-    const json = (await response.json()) as unknown;
-    // TODO validate command status
-    return json as CommandStatus;
   }
 
   trackTalksSubmitted() {
@@ -53,7 +79,7 @@ export class TalksApi extends EventTarget {
   }
 
   async addComment(command: AddCommentCommand) {
-    const response = await this.#fetch(`${BASE_URL}/add-comment`, {
+    await this.#fetch(`${BASE_URL}/add-comment`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(command),
@@ -61,9 +87,6 @@ export class TalksApi extends EventTarget {
     this.dispatchEvent(
       new CustomEvent(COMMENT_ADDED_EVENT, { detail: command }),
     );
-    const json = (await response.json()) as unknown;
-    // TODO validate command status
-    return json as CommandStatus;
   }
 
   trackCommentsAdded() {
@@ -71,7 +94,7 @@ export class TalksApi extends EventTarget {
   }
 
   async deleteTalk(command: DeleteTalkCommand) {
-    const response = await this.#fetch(`${BASE_URL}/delete-talk`, {
+    await this.#fetch(`${BASE_URL}/delete-talk`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(command),
@@ -79,34 +102,18 @@ export class TalksApi extends EventTarget {
     this.dispatchEvent(
       new CustomEvent(TALK_DELETED_EVENT, { detail: command }),
     );
-    const json = (await response.json()) as unknown;
-    // TODO validate command status
-    return json as CommandStatus;
   }
 
   trackTalksDeleted() {
     return OutputTracker.create(this, TALK_DELETED_EVENT);
   }
 
-  async queryTalks(_query: TalksQuery): Promise<TalksQueryResult> {
-    // TODO Replace with server-sent events
-    const response = await this.#fetch("/api/talks/query-talks");
-    const result: unknown = await response.json();
-    return result as TalksQueryResult;
+  #handleMessage(event: MessageEvent<string>) {
+    const { talks } = JSON.parse(event.data) as TalksQueryResult;
+    this.dispatchEvent(new TalksUpdatedEvent(talks));
   }
 }
 
 async function fetchStub() {
-  return Promise.resolve({
-    json: () => ({
-      talks: [
-        {
-          title: "Talk test title",
-          presenter: "Talk test presenter",
-          summary: "Talk test summary.",
-          comments: [],
-        },
-      ],
-    }),
-  });
+  return Promise.resolve(Response.json({ isSuccess: true }));
 }

@@ -6,10 +6,10 @@ import {
   type PayloadAction,
 } from "@reduxjs/toolkit";
 
-import type { CommandStatus, TalksQueryResult } from "../domain/messages";
+import type { TalksQueryResult } from "../domain/messages";
 import type { Talk } from "../domain/talks";
 import type { User } from "../domain/users";
-import { TalksApi } from "../infrastructure/talks_api";
+import { TalksApi, TalksUpdatedEvent } from "../infrastructure/talks_api";
 import { UsersRepository } from "../infrastructure/users_repository";
 
 interface TalksState {
@@ -29,6 +29,63 @@ type TalksThunkConfig = {
     readonly usersRepository: UsersRepository;
   };
 };
+
+const start = createAsyncThunk<void, void, TalksThunkConfig>(
+  "talks/start",
+  async (_action, thunkApi) => {
+    const { talksApi, usersRepository } = thunkApi.extra;
+
+    talksApi.addEventListener(TalksUpdatedEvent.TYPE, (event) =>
+      thunkApi.dispatch(
+        talksUpdated({ talks: (event as TalksUpdatedEvent).talks }),
+      ),
+    );
+    void talksApi.connect();
+
+    const user = await usersRepository.load();
+    thunkApi.dispatch(userChanged({ username: user?.username ?? "Anon" }));
+  },
+);
+
+const changeUser = createAsyncThunk<User, User, TalksThunkConfig>(
+  "talks/changeUser",
+  async ({ username }, thunkApi) => {
+    const { usersRepository } = thunkApi.extra;
+    await usersRepository.store({ username });
+    return { username };
+  },
+);
+
+const submitTalk = createAsyncThunk<
+  void,
+  { title: string; summary: string },
+  TalksThunkConfig
+>("talks/submitTalk", async ({ title, summary }, thunkApi) => {
+  const { talksApi } = thunkApi.extra;
+  const { username } = selectUser(thunkApi.getState());
+  const command = { title, presenter: username, summary };
+  return talksApi.submitTalk(command);
+});
+
+const addComment = createAsyncThunk<
+  void,
+  { title: string; message: string },
+  TalksThunkConfig
+>("talks/addComment", async ({ title, message }, thunkApi) => {
+  const { talksApi } = thunkApi.extra;
+  const { username } = selectUser(thunkApi.getState());
+  const command = { title, comment: { author: username, message } };
+  return talksApi.addComment(command);
+});
+
+const deleteTalk = createAsyncThunk<void, { title: string }, TalksThunkConfig>(
+  "talks/deleteTalk",
+  async ({ title }, thunkApi) => {
+    const { talksApi } = thunkApi.extra;
+    const command = { title };
+    return talksApi.deleteTalk(command);
+  },
+);
 
 const talksSlice = createSlice({
   name: "talks",
@@ -53,68 +110,13 @@ const talksSlice = createSlice({
   },
 });
 
-const start = createAsyncThunk<void, void, TalksThunkConfig>(
-  "talks/start",
-  async (_action, thunkApi) => {
-    const { talksApi, usersRepository } = thunkApi.extra;
-
-    // TODO Replace with SSE
-    const result = await talksApi.queryTalks({});
-    thunkApi.dispatch(talksUpdated(result));
-
-    const user = await usersRepository.load();
-    thunkApi.dispatch(userChanged({ username: user?.username ?? "Anon" }));
-  },
-);
-
-const changeUser = createAsyncThunk<User, User, TalksThunkConfig>(
-  "talks/changeUser",
-  async ({ username }, thunkApi) => {
-    const { usersRepository } = thunkApi.extra;
-    await usersRepository.store({ username });
-    return { username };
-  },
-);
-
-const submitTalk = createAsyncThunk<
-  CommandStatus,
-  { title: string; summary: string },
-  TalksThunkConfig
->("talks/submitTalk", async ({ title, summary }, thunkApi) => {
-  const { talksApi } = thunkApi.extra;
-  const { username } = selectUser(thunkApi.getState());
-  const command = { title, presenter: username, summary };
-  return talksApi.submitTalk(command);
-});
-
-const addComment = createAsyncThunk<
-  CommandStatus,
-  { title: string; message: string },
-  TalksThunkConfig
->("talks/addComment", async ({ title, message }, thunkApi) => {
-  const { talksApi } = thunkApi.extra;
-  const { username } = selectUser(thunkApi.getState());
-  const command = { title, comment: { author: username, message } };
-  return talksApi.addComment(command);
-});
-
-const deleteTalk = createAsyncThunk<
-  CommandStatus,
-  { title: string },
-  TalksThunkConfig
->("talks/deleteTalk", async ({ title }, thunkApi) => {
-  const { talksApi } = thunkApi.extra;
-  const command = { title };
-  return talksApi.deleteTalk(command);
-});
-
 export default talksSlice.reducer;
-
-// Sync actions
-const { talksUpdated, userChanged } = talksSlice.actions;
 
 // Async thunks
 export { addComment, changeUser, deleteTalk, start, submitTalk };
+
+// Sync actions
+const { talksUpdated, userChanged } = talksSlice.actions;
 
 // Selectors
 export const { selectTalks, selectUser } = talksSlice.selectors;
