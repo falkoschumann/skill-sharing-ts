@@ -6,8 +6,9 @@
     "start": "nest start",
     "test": "vitest",
     "build": "nest build",
+    "dist": "ncc build build/main.js --out dist --minify",
     "dev": "nest start --watch --preserveWatchOutput",
-    "clean": "rm -rf dist testdata",
+    "clean": "rm -rf build dist testdata",
     "distclean": "rm -rf node_modules"
   },
   "dependencies": {
@@ -29,6 +30,7 @@
     "@types/express": "5.0.1",
     "@types/node": "22.15.3",
     "@types/supertest": "6.0.3",
+    "@vercel/ncc": "0.38.3",
     "@vitest/coverage-v8": "3.1.2",
     "source-map-support": "0.5.21",
     "supertest": "7.1.0",

@@ -12,6 +12,8 @@ distclean: clean
 
 dist: build
 	npm run dist --workspaces --if-present
+	mkdir dist
+	cp -R backend/dist/index.js dist/main.js
 
 start: build
 	npm start

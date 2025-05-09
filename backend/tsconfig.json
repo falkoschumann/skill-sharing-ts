@@ -6,8 +6,8 @@
     "module": "NodeNext",
     "moduleResolution": "nodenext",
     // Emit
-    "declaration": true,
-    "outDir": "./dist",
+    "declaration": false,
+    "outDir": "./build",
     "removeComments": true,
     "sourceMap": true,
     // Interop Constraints
