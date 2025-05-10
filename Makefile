@@ -1,5 +1,10 @@
 WORKSPACES=backend frontend
 
+# TODO extract shared library with output tracker and SSE client
+# TODO extract shared library with domain interfaces
+# TODO let backend serves frontend
+# TODO implement e2e test with frontend and backend
+
 all: dist check
 
 clean:
@@ -12,7 +17,7 @@ distclean: clean
 
 dist: build
 	npm run dist --workspaces --if-present
-	mkdir dist
+	mkdir -p dist
 	cp -R backend/dist/index.js dist/main.js
 
 start: build
