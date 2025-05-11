@@ -33,10 +33,7 @@ export class TalksApi extends EventTarget {
   // TODO Handle CommandStatus
 
   static create() {
-    return new TalksApi(
-      SseClient.create(),
-      globalThis.fetch.bind(globalThis) as FetchType,
-    );
+    return new TalksApi(SseClient.create(), globalThis.fetch.bind(globalThis));
   }
 
   static createNull() {
