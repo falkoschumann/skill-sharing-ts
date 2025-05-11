@@ -21,8 +21,8 @@ export class TalksChanged {
 @Injectable()
 export class TalksService {
   readonly #logger = new Logger(TalksService.name);
-  readonly #repository;
-  readonly #eventEmitter;
+  readonly #repository: TalksRepository;
+  readonly #eventEmitter: EventEmitter2;
 
   constructor(repository: TalksRepository, eventEmitter: EventEmitter2) {
     this.#repository = repository;

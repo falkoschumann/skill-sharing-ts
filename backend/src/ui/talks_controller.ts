@@ -29,7 +29,7 @@ import { OnEvent } from "@nestjs/event-emitter";
 @Controller("api/talks")
 export class TalksController {
   readonly #talksUpdated = new Subject<MessageEvent>();
-  readonly #service;
+  readonly #service: TalksService;
 
   constructor(service: TalksService) {
     this.#service = service;

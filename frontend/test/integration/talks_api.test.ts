@@ -20,6 +20,7 @@ describe("Talks API", () => {
     await api.connect();
     sseClient.simulateMessage(JSON.stringify({ talks: [createTestTalk()] }));
     await result;
+    await api.close();
 
     expect(events).toEqual([
       expect.objectContaining({

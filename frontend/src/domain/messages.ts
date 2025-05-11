@@ -28,14 +28,6 @@ export interface Failure {
   readonly errorMessage: string;
 }
 
-export function createSuccess(): Success {
-  return { isSuccess: true };
-}
-
-export function createFailure(errorMessage: string): Failure {
-  return { isSuccess: false, errorMessage };
-}
-
 export interface TalksQuery {
   readonly title?: string;
 }
