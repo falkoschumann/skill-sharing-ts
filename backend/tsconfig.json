@@ -1,10 +1,6 @@
 {
+  "extends": "../tsconfig.base.json",
   "compilerOptions": {
-    /* Type Checking */
-    "noFallthroughCasesInSwitch": false,
-    "noImplicitAny": false,
-    "strictBindCallApply": false,
-    "strictNullChecks": true,
     /* Modules */
     "baseUrl": "./",
     "module": "commonjs",
@@ -21,8 +17,6 @@
     "experimentalDecorators": true,
     "target": "ES2023",
     /* Projects */
-    "incremental": true,
-    /* Completeness */
-    "skipLibCheck": true
+    "incremental": true
   }
 }

@@ -5,9 +5,9 @@ export class OutputTracker<T = unknown> {
     return new OutputTracker<T>(eventTarget, event);
   }
 
-  readonly #eventTarget;
-  readonly #event;
-  readonly #tracker;
+  readonly #eventTarget: EventTarget;
+  readonly #event: string;
+  readonly #tracker: (event: Event) => void;
   readonly #data: T[] = [];
 
   constructor(eventTarget: EventTarget, event: string) {

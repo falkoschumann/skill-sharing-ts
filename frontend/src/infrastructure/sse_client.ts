@@ -9,7 +9,7 @@ export class SseClient extends EventTarget {
     return new SseClient(EventSourceStub as unknown as typeof EventSource);
   }
 
-  #eventSourceConstructor;
+  #eventSourceConstructor: typeof EventSource;
   #eventSource?: EventSource;
 
   constructor(eventSourceConstructor: typeof EventSource) {

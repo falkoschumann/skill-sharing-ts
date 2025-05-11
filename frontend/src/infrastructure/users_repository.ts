@@ -13,7 +13,7 @@ export class UsersRepository {
     return new UsersRepository(new StorageStub(user) as unknown as Storage);
   }
 
-  readonly #storage;
+  readonly #storage: Storage;
 
   constructor(storage: Storage) {
     this.#storage = storage;
@@ -37,7 +37,7 @@ export class UsersRepository {
 }
 
 class StorageStub {
-  #item;
+  #item: unknown;
 
   constructor(item: unknown) {
     this.#item = item != null ? JSON.stringify(item) : null;

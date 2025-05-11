@@ -2,16 +2,11 @@
   "compilerOptions": {
     // Type Checking
     "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": false,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "strict": true,
-    // Modules
-    "noUncheckedSideEffectImports": true,
-    // Interop Constraints
-    "forceConsistentCasingInFileNames": true,
-    // Language and Environment
-    "lib": ["ES2022"],
-    "target": "ES2022",
+    "strictBindCallApply": false,
     // Completeness
     "skipLibCheck": true
   }
