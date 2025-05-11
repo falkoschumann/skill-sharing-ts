@@ -1,21 +1,28 @@
 {
-  "extends": "../tsconfig.base.json",
   "compilerOptions": {
-    // Modules
+    /* Type Checking */
+    "noFallthroughCasesInSwitch": false,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "strictNullChecks": true,
+    /* Modules */
     "baseUrl": "./",
-    "module": "NodeNext",
-    "moduleResolution": "nodenext",
-    // Emit
-    "declaration": false,
-    "outDir": "./build",
+    "module": "commonjs",
+    /* Emit */
+    "declaration": true,
+    "outDir": "./dist",
     "removeComments": true,
     "sourceMap": true,
-    // Interop Constraints
-    //"allowSyntheticDefaultImports": true,
-    // Language and Environment
+    /* Interop Constraints */
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    /* Language and Environment */
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    // Projects
-    "incremental": true
+    "target": "ES2023",
+    /* Projects */
+    "incremental": true,
+    /* Completeness */
+    "skipLibCheck": true
   }
 }

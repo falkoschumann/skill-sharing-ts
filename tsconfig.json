@@ -1,15 +1,28 @@
 {
-  "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    // Modules
+    /* Type Checking */
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "strict": true,
+    /* Modules */
+    "allowImportingTsExtensions": true,
     "module": "ESNext",
     "moduleResolution": "bundler",
-    // Emit
+    "noUncheckedSideEffectImports": true,
+    /* Emit */
     "noEmit": true,
-    // Interop Constraints
-    "isolatedModules": true,
-    // Language and Environment
-    "moduleDetection": "force"
+    /* Interop Constraints */
+    "erasableSyntaxOnly": true,
+    "verbatimModuleSyntax": true,
+    /* Language and Environment */
+    "moduleDetection": "force",
+    "target": "ES2022",
+    /* Projects */
+    "lib": ["ES2023"],
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
+    /* Completeness */
+    "skipLibCheck": true
   },
   "include": ["vite.config.ts", "vitest.setup.ts"]
 }
