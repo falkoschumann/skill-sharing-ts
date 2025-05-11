@@ -18,7 +18,7 @@ distclean: clean
 dist: build
 	npm run dist --workspaces --if-present
 	mkdir -p dist
-	cp -R backend/dist/index.js dist/main.js
+	cp -R backend/dist/* dist/
 
 start: build
 	npm start
@@ -48,7 +48,7 @@ watch: prepare
 	npm test
 
 coverage: prepare
-	npx vitest --coverage
+	npx vitest run --coverage
 
 unit-tests: prepare
 	npx vitest run unit
