@@ -30,6 +30,8 @@ export class TalksUpdatedEvent extends Event {
 }
 
 export class TalksApi extends EventTarget {
+  // TODO Handle CommandStatus
+
   static create() {
     return new TalksApi(SseClient.create(), globalThis.fetch.bind(globalThis));
   }
