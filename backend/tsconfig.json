@@ -2,20 +2,26 @@
   "extends": "../tsconfig.base.json",
   "compilerOptions": {
     /* Modules */
-    "baseUrl": "./",
-    "module": "commonjs",
+    //"baseUrl": "./",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "noUncheckedSideEffectImports": true,
     /* Emit */
-    "declaration": true,
-    "outDir": "./dist",
-    "removeComments": true,
-    "sourceMap": true,
+    "noEmit": true,
+    //"declaration": true,
+    //"outDir": "./dist",
+    //"removeComments": true,
+    //"sourceMap": true,
     /* Interop Constraints */
     "allowSyntheticDefaultImports": true,
+    "erasableSyntaxOnly": true,
     "forceConsistentCasingInFileNames": true,
+    "verbatimModuleSyntax": true,
     /* Language and Environment */
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "target": "ES2023",
+    "target": "ES2022",
+    "useDefineForClassFields": true,
     /* Projects */
     "incremental": true
   }

@@ -1,5 +1,6 @@
 // Copyright (c) 2025 Falko Schumann. All rights reserved. MIT license.
 
+import type { MessageEvent } from "@nestjs/common";
 import {
   Body,
   Controller,
@@ -8,16 +9,15 @@ import {
   HttpCode,
   HttpException,
   HttpStatus,
-  MessageEvent,
   Post,
   Query,
   Sse,
 } from "@nestjs/common";
 
 import { TalksChanged, TalksService } from "../application/talks_service";
+import type { CommandStatus } from "../domain/messages";
 import {
   AddCommentCommand,
-  CommandStatus,
   DeleteTalkCommand,
   Failure,
   SubmitTalkCommand,

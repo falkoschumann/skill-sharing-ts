@@ -3,7 +3,8 @@
 import * as fsPromise from "node:fs/promises";
 import * as path from "node:path";
 import { Inject, Injectable } from "@nestjs/common";
-import { ConfigType, registerAs } from "@nestjs/config";
+import type { ConfigType } from "@nestjs/config";
+import { registerAs } from "@nestjs/config";
 
 import { Talk } from "../domain/talks";
 
