@@ -15,10 +15,10 @@
     "jsx": "react-jsx",
     "moduleDetection": "force",
     "target": "ES2020",
+    "useDefineForClassFields": true,
     /* Projects */
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
-    "useDefineForClassFields": true
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo"
   },
   "include": ["src", "test"]
 }
