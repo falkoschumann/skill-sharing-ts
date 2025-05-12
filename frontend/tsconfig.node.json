@@ -1,22 +1,7 @@
 {
   "extends": "../tsconfig.base.json",
   "compilerOptions": {
-    /* Modules */
-    //"allowImportingTsExtensions": true,
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "noUncheckedSideEffectImports": true,
-    /* Emit */
-    "noEmit": true,
-    /* Interop Constraints */
-    "erasableSyntaxOnly": true,
-    "verbatimModuleSyntax": true,
-    /* Language and Environment */
-    "moduleDetection": "force",
-    "target": "ES2022",
-    "useDefineForClassFields": true,
     /* Projects */
-    "lib": ["ES2022"],
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo"
   },
   "include": ["vite.config.ts"]
