@@ -18,7 +18,7 @@ import { TalksController } from "./ui/talks_controller";
     ConfigModule.forRoot({ load: [repositoryConfigurationFactory] }),
     EventEmitterModule.forRoot(),
     ServeStaticModule.forRoot({
-      rootPath: path.resolve(process.env.CLIENT_DIR || "client"),
+      rootPath: path.resolve(process.env.STATIC_DIR || "static"),
     }),
   ],
   controllers: [TalksController],
