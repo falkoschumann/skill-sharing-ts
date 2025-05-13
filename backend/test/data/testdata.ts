@@ -5,6 +5,7 @@ import {
   AddCommentCommand,
   DeleteTalkCommand,
   SubmitTalkCommand,
+  TalksQueryResult,
 } from "../../src/domain/messages";
 
 export function createTestTalk({
@@ -12,8 +13,8 @@ export function createTestTalk({
   presenter = "Talk test presenter",
   summary = "Talk test summary.",
   comments = [],
-} = {}): Talk {
-  return { title, presenter, summary, comments };
+} = {}) {
+  return new Talk(title, presenter, summary, comments);
 }
 
 export function createTestTalkWithComment({
@@ -21,46 +22,46 @@ export function createTestTalkWithComment({
   presenter = "Talk test presenter",
   summary = "Talk test summary.",
   comments = [createTestComment()],
-} = {}): Talk {
-  return { title, presenter, summary, comments };
+} = {}) {
+  return new Talk(title, presenter, summary, comments);
 }
 
 export function createTestComment({
   author = "Comment test author",
   message = "Comment test message",
-} = {}): Comment {
-  return { author, message };
+} = {}) {
+  return new Comment(author, message);
 }
 
 export function createTestSubmitTalkCommand({
   title = "Talk test title",
   presenter = "Talk test presenter",
   summary = "Talk test summary.",
-} = {}): SubmitTalkCommand {
-  return { title, presenter, summary };
+} = {}) {
+  return new SubmitTalkCommand(title, presenter, summary);
 }
 
 export function createTestAddCommentCommand({
   title = "Talk test title",
   comment = createTestComment(),
-} = {}): AddCommentCommand {
-  return { title, comment };
+} = {}) {
+  return new AddCommentCommand(title, comment);
 }
 
 export function createTestDeleteTalkCommand({
   title = "Talk test title",
-} = {}): DeleteTalkCommand {
-  return { title };
+} = {}) {
+  return new DeleteTalkCommand(title);
 }
 
 export function createTestTalksQueryResult({
   talks = [createTestTalk()],
 } = {}) {
-  return { talks };
+  return new TalksQueryResult(talks);
 }
 
 export function createTestTalksQueryResultWithComment({
   talks = [createTestTalkWithComment()],
 } = {}) {
-  return { talks };
+  return new TalksQueryResult(talks);
 }

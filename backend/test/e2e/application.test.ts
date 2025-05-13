@@ -2,10 +2,11 @@
 
 import path from "node:path";
 import fs from "node:fs/promises";
-import { INestApplication, ValidationPipe } from "@nestjs/common";
+import type { INestApplication } from "@nestjs/common";
+import { ValidationPipe } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
 import request from "supertest";
-import { App } from "supertest/types";
+import type { App } from "supertest/types";
 import { beforeEach, describe, expect, it } from "vitest";
 
 import {
