@@ -9,9 +9,10 @@ import {
   ValidateNested,
 } from "class-validator";
 
+import * as domain from "@skill-sharing/shared";
 import { Comment, Talk } from "./talks";
 
-export class SubmitTalkCommand {
+export class SubmitTalkCommand implements domain.SubmitTalkCommand {
   @IsString()
   @IsNotEmpty()
   title: string;
@@ -31,7 +32,7 @@ export class SubmitTalkCommand {
   }
 }
 
-export class AddCommentCommand {
+export class AddCommentCommand implements domain.AddCommentCommand {
   @IsString()
   @IsNotEmpty()
   title: string;
@@ -46,7 +47,7 @@ export class AddCommentCommand {
   }
 }
 
-export class DeleteTalkCommand {
+export class DeleteTalkCommand implements domain.DeleteTalkCommand {
   @IsString()
   @IsNotEmpty()
   title: string;
@@ -58,11 +59,11 @@ export class DeleteTalkCommand {
 
 export type CommandStatus = Success | Failure;
 
-export class Success {
+export class Success implements domain.Success {
   readonly isSuccess = true;
 }
 
-export class Failure {
+export class Failure implements domain.Failure {
   readonly isSuccess = false;
   readonly errorMessage: string;
 
@@ -71,7 +72,7 @@ export class Failure {
   }
 }
 
-export class TalksQuery {
+export class TalksQuery implements domain.TalksQuery {
   @IsOptional()
   @IsString()
   title?: string;
@@ -81,7 +82,7 @@ export class TalksQuery {
   }
 }
 
-export class TalksQueryResult {
+export class TalksQueryResult implements domain.TalksQueryResult {
   @IsArray()
   @ValidateNested()
   @Type(() => Talk)

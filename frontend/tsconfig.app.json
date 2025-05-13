@@ -4,7 +4,6 @@
     /* Language and Environment */
     "jsx": "react-jsx",
     /* Projects */
-    "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo"
   },
   "include": ["src", "test"]

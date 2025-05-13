@@ -1,6 +1,6 @@
 // Copyright (c) 2025 Falko Schumann. All rights reserved. MIT license.
 
-import type { Talk } from "../domain/talks";
+import type { Talk } from "@skill-sharing/shared";
 import Comments from "./comments";
 
 export default function Talks({

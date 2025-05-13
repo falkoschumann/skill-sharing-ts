@@ -3,12 +3,12 @@
 import {
   type AddCommentCommand,
   type DeleteTalkCommand,
+  OutputTracker,
   type SubmitTalkCommand,
+  type Talk,
   type TalksQueryResult,
-} from "../domain/messages";
-import { type Talk } from "../domain/talks";
-import { SseClient } from "./sse_client";
-import { OutputTracker } from "../util/output_tracker";
+} from "@skill-sharing/shared";
+import { SseClient } from "../../../shared/src/infrastructure/sse_client";
 
 type FetchType = typeof globalThis.fetch;
 

@@ -6,8 +6,7 @@ import {
   type PayloadAction,
 } from "@reduxjs/toolkit";
 
-import type { TalksQueryResult } from "../domain/messages";
-import type { Talk } from "../domain/talks";
+import type { Talk, TalksQueryResult } from "@skill-sharing/shared";
 import type { User } from "../domain/users";
 import { TalksApi, TalksUpdatedEvent } from "../infrastructure/talks_api";
 import { UsersRepository } from "../infrastructure/users_repository";

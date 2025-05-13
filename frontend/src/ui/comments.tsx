@@ -1,6 +1,6 @@
 // Copyright (c) 2025 Falko Schumann. All rights reserved. MIT license.
 
-import type { Comment, Talk } from "../domain/talks";
+import type { Comment, Talk } from "@skill-sharing/shared";
 import type { FormEvent } from "react";
 
 export default function Comments({ talk, onCommentAdded }: { talk: Talk; onCommentAdded: (comment: { title: string; message: string }) => void }) {

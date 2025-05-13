@@ -3,7 +3,9 @@
 import { Type } from "class-transformer";
 import { IsArray, IsNotEmpty, IsString, ValidateNested } from "class-validator";
 
-export class Talk {
+import * as domain from "@skill-sharing/shared";
+
+export class Talk implements domain.Talk {
   @IsString()
   @IsNotEmpty()
   title: string;
@@ -34,7 +36,7 @@ export class Talk {
   }
 }
 
-export class Comment {
+export class Comment implements domain.Comment {
   @IsString()
   @IsNotEmpty()
   author: string;

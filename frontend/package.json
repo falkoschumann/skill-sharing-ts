@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "2.7.0",
+    "@skill-sharing/shared": "0.1.0",
     "bootstrap": "5.3.5",
     "react": "19.1.0",
     "react-dom": "19.1.0",

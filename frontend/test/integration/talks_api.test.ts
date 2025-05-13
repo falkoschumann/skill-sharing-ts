@@ -4,7 +4,7 @@
 
 import { describe, expect, it } from "vitest";
 
-import { SseClient } from "../../src/infrastructure/sse_client";
+import { SseClient } from "@skill-sharing/shared";
 import { TalksApi } from "../../src/infrastructure/talks_api";
 import { createTestTalk } from "../data/testdata";
 
