@@ -1,8 +1,5 @@
 WORKSPACES=backend frontend
 
-# TODO extract shared library with output tracker and SSE client
-# TODO extract shared library with domain interfaces
-# TODO let backend serves frontend
 # TODO implement e2e test with frontend and backend
 
 all: dist check
