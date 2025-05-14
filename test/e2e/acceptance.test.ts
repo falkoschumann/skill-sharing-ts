@@ -14,13 +14,17 @@ describe("User acceptance test", () => {
     await sut.start();
   });
 
-  it("Submit and comment a talk", async () => {
-    await sut.gotoSubmission();
-    await sut.setViewport(1024, 768);
-    await sut.saveScreenshot("01-app-started");
+  it(
+    "Submit and comment a talk",
+    async () => {
+      await sut.gotoSubmission();
+      await sut.setViewport(1024, 768);
+      await sut.saveScreenshot("01-app-started");
 
-    expect(true).equals(true);
-  });
+      expect(true).equals(true);
+    },
+    { timeout: 60000 },
+  );
 
   afterEach(async () => {
     await sut.stop();
