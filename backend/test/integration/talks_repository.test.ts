@@ -7,7 +7,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { TalksRepository } from "../../src/infrastructure/talks_repository";
 import { createTestTalk, createTestTalkWithComment } from "../data/testdata";
 
-const testFile = path.resolve(
+const TEST_FILE = path.resolve(
   __dirname,
   "../../testdata/integration.repository.json",
 );
@@ -20,7 +20,7 @@ const corruptedFile = path.resolve(__dirname, "../data/talks-corrupt.json");
 
 describe("Talks repository", () => {
   beforeEach(async () => {
-    await fs.rm(testFile, { force: true });
+    await fs.rm(TEST_FILE, { force: true });
   });
 
   describe("Find all", () => {
@@ -86,7 +86,7 @@ describe("Talks repository", () => {
 
   describe("Save", () => {
     it("Creates file when file does not exist", async () => {
-      const repository = new TalksRepository({ fileName: testFile });
+      const repository = new TalksRepository({ fileName: TEST_FILE });
 
       const talk = createTestTalk();
       await repository.save(talk);
@@ -96,7 +96,7 @@ describe("Talks repository", () => {
     });
 
     it("Adds talk when file exists", async () => {
-      const repository = new TalksRepository({ fileName: testFile });
+      const repository = new TalksRepository({ fileName: TEST_FILE });
       const talk1 = createTestTalk({ title: "Foo" });
       await repository.save(talk1);
 
@@ -108,7 +108,7 @@ describe("Talks repository", () => {
     });
 
     it("Updates talk when talk exists", async () => {
-      const repository = new TalksRepository({ fileName: testFile });
+      const repository = new TalksRepository({ fileName: TEST_FILE });
       const talk = createTestTalk({
         presenter: "Alice",
       });
@@ -133,7 +133,7 @@ describe("Talks repository", () => {
 
   describe("Delete", () => {
     it("Deletes talk", async () => {
-      const repository = new TalksRepository({ fileName: testFile });
+      const repository = new TalksRepository({ fileName: TEST_FILE });
       const talk = createTestTalk();
       await repository.save(talk);
 
@@ -144,7 +144,7 @@ describe("Talks repository", () => {
     });
 
     it("Does not reports an error when file does not exist", async () => {
-      const repository = new TalksRepository({ fileName: testFile });
+      const repository = new TalksRepository({ fileName: TEST_FILE });
 
       const talks = await repository.deleteByTitle("Any title");
 

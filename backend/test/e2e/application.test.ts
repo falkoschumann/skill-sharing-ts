@@ -7,7 +7,7 @@ import { ValidationPipe } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
 import request from "supertest";
 import type { App } from "supertest/types";
-import { beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
 
 import {
   AddCommentCommand,
@@ -30,40 +30,29 @@ import {
 } from "../data/testdata";
 
 describe("Application", () => {
-  let app: INestApplication<App>;
+  let sut: SystemUnderTest;
 
   beforeEach(async () => {
-    process.env.REPOSITORY_FILE_NAME = path.resolve(
-      __dirname,
-      "../../testdata/e2e_application.json",
-    );
-    await fs.rm(process.env.REPOSITORY_FILE_NAME, { force: true });
-
-    const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
-    }).compile();
-    app = moduleFixture.createNestApplication();
-    app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
-    await app.init();
+    sut = new SystemUnderTest();
+    await sut.start();
   });
 
   describe("Submit talk", () => {
     it("Adds talk to list", async () => {
-      const status = await submitTalk(app, createTestSubmitTalkCommand());
+      const status = await sut.submitTalk(createTestSubmitTalkCommand());
 
       expect(status.headers["content-type"]).toMatch(/json/);
       expect(status.status).toEqual(201);
       expect(status.body).toEqual(new Success());
 
-      const result = await queryTalks(app, {});
+      const result = await sut.queryTalks({});
 
       expect(result.status).toEqual(200);
       expect(result.body).toEqual(createTestTalksQueryResult());
     });
 
     it("Reports an error when talk could not add", async () => {
-      const status = await submitTalk(
-        app,
+      const status = await sut.submitTalk(
         // @ts-expect-error TS2322
         createTestSubmitTalkCommand({ presenter: null }),
       );
@@ -71,7 +60,7 @@ describe("Application", () => {
       expect(status.headers["content-type"]).toMatch(/json/);
       expect(status.status).toEqual(400);
 
-      const result = await queryTalks(app, {});
+      const result = await sut.queryTalks({});
 
       expect(result.status).toEqual(200);
       expect(result.body).toEqual(createTestTalksQueryResult({ talks: [] }));
@@ -80,22 +69,21 @@ describe("Application", () => {
 
   describe("Add comment", () => {
     it("Adds comment to an existing talk", async () => {
-      await submitTalk(app, createTestSubmitTalkCommand());
+      await sut.submitTalk(createTestSubmitTalkCommand());
 
-      const status = await addComment(app, createTestAddCommentCommand());
+      const status = await sut.addComment(createTestAddCommentCommand());
 
       expect(status.status).toEqual(201);
       expect(status.body).toEqual(new Success());
-      const result = await queryTalks(app, {});
+      const result = await sut.queryTalks({});
       expect(result.status).toEqual(200);
       expect(result.body).toEqual(createTestTalksQueryResultWithComment());
     });
 
     it("Reports an error when talk does not exists", async () => {
-      await submitTalk(app, createTestSubmitTalkCommand());
+      await sut.submitTalk(createTestSubmitTalkCommand());
 
-      const status = await addComment(
-        app,
+      const status = await sut.addComment(
         createTestAddCommentCommand({ title: "Non existing talk" }),
       );
 
@@ -108,10 +96,9 @@ describe("Application", () => {
     });
 
     it("Reports an error when comment could not add", async () => {
-      await submitTalk(app, createTestSubmitTalkCommand());
+      await sut.submitTalk(createTestSubmitTalkCommand());
 
-      const status = await addComment(
-        app,
+      const status = await sut.addComment(
         createTestAddCommentCommand({
           // @ts-expect-error TS2322
           comment: createTestComment({ author: null }),
@@ -124,17 +111,16 @@ describe("Application", () => {
 
   describe("Delete talk", () => {
     it("Deletes an existing talk", async () => {
-      await submitTalk(app, createTestSubmitTalkCommand());
+      await sut.submitTalk(createTestSubmitTalkCommand());
 
-      const status = await deleteTalk(app, createTestDeleteTalkCommand());
+      const status = await sut.deleteTalk(createTestDeleteTalkCommand());
 
       expect(status.status).toEqual(200);
       expect(status.body).toEqual(new Success());
     });
 
     it("Reports no error when talk does not exist", async () => {
-      const status = await deleteTalk(
-        app,
+      const status = await sut.deleteTalk(
         createTestDeleteTalkCommand({ title: "non-existing-talk" }),
       );
 
@@ -145,11 +131,11 @@ describe("Application", () => {
 
   describe("Talks", () => {
     it("Returns all talks", async () => {
-      await submitTalk(app, createTestSubmitTalkCommand({ title: "Foo" }));
-      await addComment(app, createTestAddCommentCommand({ title: "Foo" }));
-      await submitTalk(app, createTestSubmitTalkCommand({ title: "Bar" }));
+      await sut.submitTalk(createTestSubmitTalkCommand({ title: "Foo" }));
+      await sut.addComment(createTestAddCommentCommand({ title: "Foo" }));
+      await sut.submitTalk(createTestSubmitTalkCommand({ title: "Bar" }));
 
-      const result = await queryTalks(app, {});
+      const result = await sut.queryTalks({});
 
       expect(result.status).toEqual(200);
       expect(result.body).toEqual({
@@ -161,9 +147,9 @@ describe("Application", () => {
     });
 
     it("Returns a single talk when client asks for a specific talk", async () => {
-      await submitTalk(app, createTestSubmitTalkCommand({ title: "Foo" }));
+      await sut.submitTalk(createTestSubmitTalkCommand({ title: "Foo" }));
 
-      const result = await queryTalks(app, { title: "Foo" });
+      const result = await sut.queryTalks({ title: "Foo" });
 
       expect(result.status).toEqual(200);
       expect(result.body).toEqual({
@@ -172,48 +158,66 @@ describe("Application", () => {
     });
 
     it("Returns no talk when client asks for a specific talk that does not exist", async () => {
-      const result = await queryTalks(app, { title: "Non existing talk" });
+      const result = await sut.queryTalks({ title: "Non existing talk" });
 
       expect(result.status).toEqual(200);
       expect(result.body).toEqual({ talks: [] });
     });
   });
+
+  afterEach(async () => {
+    await sut.stop();
+  });
 });
 
-async function submitTalk(
-  app: INestApplication<App>,
-  command: SubmitTalkCommand,
-) {
-  return request(app.getHttpServer())
-    .post("/api/talks/submit-talk")
-    .set("Content-Type", "application/json")
-    .send(command);
-}
+class SystemUnderTest {
+  #app!: INestApplication<App>;
 
-async function addComment(
-  app: INestApplication<App>,
-  command: AddCommentCommand,
-) {
-  return request(app.getHttpServer())
-    .post(`/api/talks/add-comment`)
-    .set("Content-Type", "application/json")
-    .send(command);
-}
+  async start() {
+    process.env.REPOSITORY_FILE_NAME = path.resolve(
+      import.meta.dirname,
+      "../../testdata/e2e_application.json",
+    );
+    await fs.rm(process.env.REPOSITORY_FILE_NAME, { force: true });
 
-async function deleteTalk(
-  app: INestApplication<App>,
-  command: DeleteTalkCommand,
-) {
-  return request(app.getHttpServer())
-    .post("/api/talks/delete-talk")
-    .set("Content-Type", "application/json")
-    .send(command);
-}
-
-async function queryTalks(app: INestApplication<App>, query: TalksQuery) {
-  let url = "/api/talks/query-talks";
-  if (query.title != null) {
-    url += `?title=${encodeURIComponent(query.title)}`;
+    const moduleFixture: TestingModule = await Test.createTestingModule({
+      imports: [AppModule],
+    }).compile();
+    this.#app = moduleFixture.createNestApplication();
+    this.#app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
+    await this.#app.init();
   }
-  return request(app.getHttpServer()).get(url);
+
+  async stop() {
+    await this.#app.close();
+  }
+
+  async submitTalk(command: SubmitTalkCommand) {
+    return request(this.#app.getHttpServer())
+      .post("/api/talks/submit-talk")
+      .set("Content-Type", "application/json")
+      .send(command);
+  }
+
+  async addComment(command: AddCommentCommand) {
+    return request(this.#app.getHttpServer())
+      .post(`/api/talks/add-comment`)
+      .set("Content-Type", "application/json")
+      .send(command);
+  }
+
+  async deleteTalk(command: DeleteTalkCommand) {
+    return request(this.#app.getHttpServer())
+      .post("/api/talks/delete-talk")
+      .set("Content-Type", "application/json")
+      .send(command);
+  }
+
+  async queryTalks(query: TalksQuery) {
+    let url = "/api/talks/query-talks";
+    if (query.title != null) {
+      url += `?title=${encodeURIComponent(query.title)}`;
+    }
+    return request(this.#app.getHttpServer()).get(url);
+  }
 }
