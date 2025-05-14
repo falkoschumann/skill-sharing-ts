@@ -11,11 +11,14 @@ import {
   repositoryConfigurationFactory,
   TalksRepository,
 } from "./infrastructure/talks_repository";
+import { serverConfigurationFactory } from "./ui/server_configuration";
 import { TalksController } from "./ui/talks_controller";
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ load: [repositoryConfigurationFactory] }),
+    ConfigModule.forRoot({
+      load: [repositoryConfigurationFactory, serverConfigurationFactory],
+    }),
     EventEmitterModule.forRoot(),
     ServeStaticModule.forRoot({
       rootPath: path.resolve(process.env.STATIC_DIR || "static"),
