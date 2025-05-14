@@ -14,7 +14,7 @@ describe("User acceptance test", () => {
     await sut.start();
   });
 
-  it("Submit and comment a talk", { timeout: 60000 }, async () => {
+  it("Submit and comment a talk", { timeout: 60_000 }, async () => {
     await sut.gotoSubmission();
     await sut.setViewport(1024, 768);
     await sut.saveScreenshot("01-app-started");
