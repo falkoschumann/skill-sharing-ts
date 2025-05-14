@@ -1,8 +1,4 @@
 {
   "extends": "./tsconfig.base.json",
-  "compilerOptions": {
-    /* Projects */
-    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo"
-  },
-  "include": ["vite.config.ts", "vitest.setup.ts"]
+  "include": ["test", "vite.config.ts", "vitest.setup.ts"]
 }
