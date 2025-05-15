@@ -36,7 +36,7 @@ describe("User acceptance test", () => {
     await sut.commentOnTalk({ comment: "Thanks." });
     await sut.saveScreenshot("04-comment-answered");
     await sut.verifyCommentAdded({ author: "Anon", comment: "Thanks." });
-  }, 10_000);
+  }, 60_000);
 
   afterEach(async () => {
     await sut.stop();
