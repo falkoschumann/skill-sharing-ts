@@ -1,7 +1,5 @@
 WORKSPACES=backend frontend
 
-# TODO implement e2e test with frontend and backend
-
 all: dist check
 
 clean:
@@ -32,29 +30,29 @@ format:
 	npx eslint --fix .
 	npx prettier --write .
 
-dev: prepare
+dev: build
 	npx concurrently \
 		--kill-others \
 		--names "WEB,API" \
 		--prefix-colors "bgMagenta.bold,bgGreen.bold" \
 		$(foreach workspace,$(WORKSPACES),"npm run dev --workspace=$(workspace)")
 
-test: prepare
+test: build
 	npx vitest run
 
-watch: prepare
+watch: build
 	npm test
 
-coverage: prepare
+coverage: build
 	npx vitest run --coverage
 
-unit-tests: prepare
+unit-tests: build
 	npx vitest run unit
 
-integration-tests: prepare
+integration-tests: build
 	npx vitest run integration
 
-e2e-tests: prepare
+e2e-tests: build
 	npx vitest run e2e
 
 build: prepare

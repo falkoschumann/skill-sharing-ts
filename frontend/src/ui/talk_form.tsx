@@ -25,7 +25,7 @@ export default function TalkForm({ onTalkSubmitted }: { onTalkSubmitted: (talk: 
   }
 
   return (
-    <form onSubmit={(e) => formSubmitted(e)}>
+    <form id="talk-form" onSubmit={(e) => formSubmitted(e)}>
       <h3>Submit a Talk</h3>
       <div className="mb-3">
         <label htmlFor="title" className="form-label">

@@ -16,7 +16,7 @@
     "test": "vitest",
     "build": "npm run build --workspaces --if-present",
     "clean": "rm -rf coverage",
-    "distclean": "rm -rf dist node_modules"
+    "distclean": "rm -rf dist screenshots node_modules"
   },
   "devDependencies": {
     "@eslint/js": "9.26.0",

@@ -4,7 +4,7 @@ import type { User } from "../domain/users";
 
 export default function UserField({ user, onUsernameChanged }: { user: User; onUsernameChanged: (username: string) => void }) {
   return (
-    <div className="mb-4">
+    <div id="user-field" className="mb-4">
       <label htmlFor="username" className="form-label">
         Your name
       </label>

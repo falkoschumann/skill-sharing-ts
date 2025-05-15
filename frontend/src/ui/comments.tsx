@@ -26,7 +26,7 @@ export default function Comments({ talk, onCommentAdded }: { talk: Talk; onComme
   }
 
   return (
-    <>
+    <div id="comments">
       <ul className="list-group mb-3">
         {talk.comments.map((comment, index) => (
           <Comment comment={comment} key={index} />
@@ -41,7 +41,7 @@ export default function Comments({ talk, onCommentAdded }: { talk: Talk; onComme
           Add comment
         </button>
       </form>
-    </>
+    </div>
   );
 }
 

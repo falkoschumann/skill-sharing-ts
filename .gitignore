@@ -2,6 +2,7 @@
 
 # Project
 /screenshots/
+/testdata
 
 # Build
 dist/

@@ -12,7 +12,13 @@ export default function Talks({
   onCommentAdded: (comment: { title: string; message: string }) => void;
   onTalkDeleted: (talk: { title: string }) => void;
 }) {
-  return talks.map((talk) => <TalkItem key={talk.title} talk={talk} onCommentAdded={onCommentAdded} onTalkDeleted={onTalkDeleted} />);
+  return (
+    <div id="talks">
+      {talks.map((talk) => (
+        <TalkItem key={talk.title} talk={talk} onCommentAdded={onCommentAdded} onTalkDeleted={onTalkDeleted} />
+      ))}
+    </div>
+  );
 }
 
 function TalkItem({ talk, onCommentAdded, onTalkDeleted }: { talk: Talk; onCommentAdded: (comment: { title: string; message: string }) => void; onTalkDeleted: (talk: { title: string }) => void }) {
