@@ -10,22 +10,22 @@
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
     "useUnknownInCatchVariables": true,
-    /* Modules */
+    // Modules
     "module": "ESNext",
     "moduleResolution": "bundler",
     "noUncheckedSideEffectImports": true,
-    /* Emit */
+    // Emit
     "noEmit": true,
-    /* Interop Constraints */
+    // Interop Constraints
     "allowSyntheticDefaultImports": true,
     "erasableSyntaxOnly": true,
     "forceConsistentCasingInFileNames": true,
     "verbatimModuleSyntax": true,
-    /* Language and Environment */
+    // Language and Environment
     "moduleDetection": "force",
     "target": "ES2022",
     "useDefineForClassFields": true,
-    /* Projects */
+    // Projects
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     // Completeness
     "skipLibCheck": true

@@ -1,10 +1,10 @@
 {
   "extends": "../tsconfig.base.json",
   "compilerOptions": {
-    /* Language and Environment */
+    // Language and Environment
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    /* Projects */
+    // Projects
     "incremental": true
   }
 }
