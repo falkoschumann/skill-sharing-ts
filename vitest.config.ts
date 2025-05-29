@@ -10,6 +10,7 @@ export default defineConfig({
       provider: "v8",
       include: ["**/src/**/*", "**/test/**/*"],
     },
+    hookTimeout: 30_000, // 30 seconds
   },
   plugins: [swc.vite({ module: { type: "es6" } })],
 });
