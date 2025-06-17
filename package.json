@@ -29,7 +29,7 @@
     "globals": "16.2.0",
     "prettier": "3.5.3",
     "puppeteer": "24.10.1",
-    "typescript-eslint": "8.34.0",
+    "typescript-eslint": "8.34.1",
     "unplugin-swc": "1.5.4",
     "vitest": "3.2.3"
   }
