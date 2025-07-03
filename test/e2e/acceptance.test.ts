@@ -50,9 +50,9 @@ class SystemUnderTest {
   #page!: Page;
 
   async start() {
-    console.log("Start");
+    console.log("SUT - Start");
 
-    process.env.SERVER_PORT = "8888";
+    process.env.SERVER_PORT = "4444";
     process.env.REPOSITORY_FILE_NAME = path.resolve(
       import.meta.dirname,
       "../../testdata/e2e_acceptance.json",
@@ -78,7 +78,7 @@ class SystemUnderTest {
     console.info("SUT - Go to submission");
 
     this.#page = await this.#browser.newPage();
-    await this.#page.goto(`http://localhost:8888`);
+    await this.#page.goto("http://localhost:4444");
   }
 
   async setViewport(viewport: { width: number; height: number }) {
