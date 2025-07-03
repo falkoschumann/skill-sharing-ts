@@ -15,8 +15,8 @@
     "start": "npm start --workspace=backend",
     "test": "vitest",
     "build": "npm run build --workspaces --if-present",
-    "clean": "rm -rf coverage",
-    "distclean": "rm -rf dist screenshots node_modules"
+    "clean": "rm -rf coverage screenshots testdata",
+    "distclean": "rm -rf dist node_modules"
   },
   "devDependencies": {
     "@eslint/js": "9.30.1",
