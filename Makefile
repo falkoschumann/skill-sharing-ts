@@ -1,4 +1,6 @@
 WORKSPACES=backend frontend
+PLANTUML_FILES = $(wildcard doc/*.puml)
+DIAGRAM_FILES = $(subst .puml,.png,$(PLANTUML_FILES))
 
 all: dist check
 
@@ -19,8 +21,7 @@ dist: build
 start: build
 	npm start
 
-doc:
-	plantuml doc/*.puml
+doc: $(DIAGRAM_FILES)
 
 check: test
 	npx eslint .
@@ -69,6 +70,9 @@ prepare: version
 version:
 	@echo "Use Node.js $(shell node --version)"
 	@echo "Use NPM $(shell npm --version)"
+
+$(DIAGRAM_FILES): %.png: %.puml
+	plantuml $^
 
 .PHONY: all clean distclean dist start doc \
 	check format \
