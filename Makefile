@@ -21,6 +21,13 @@ dist: build
 start: build
 	npm start
 
+dev: build
+	npx concurrently \
+		--kill-others \
+		--names "WEB,API" \
+		--prefix-colors "bgMagenta.bold,bgGreen.bold" \
+		$(foreach workspace,$(WORKSPACES),"npm run dev --workspace=$(workspace)")
+
 doc: $(DIAGRAM_FILES)
 
 check: test
@@ -31,18 +38,11 @@ format:
 	npx eslint --fix .
 	npx prettier --write .
 
-dev: build
-	npx concurrently \
-		--kill-others \
-		--names "WEB,API" \
-		--prefix-colors "bgMagenta.bold,bgGreen.bold" \
-		$(foreach workspace,$(WORKSPACES),"npm run dev --workspace=$(workspace)")
-
 test: build
 	npx vitest run
 
 watch: build
-	npm test
+	npx vitest watch
 
 coverage: build
 	npx vitest run --coverage
@@ -74,7 +74,8 @@ version:
 $(DIAGRAM_FILES): %.png: %.puml
 	plantuml $^
 
-.PHONY: all clean distclean dist start doc \
+.PHONY: all clean distclean dist \
+	start dev doc \
 	check format \
-	dev test watch coverage unit-tests integration-tests e2e-tests \
+	test watch coverage unit-tests integration-tests e2e-tests \
 	build prepare version
