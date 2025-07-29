@@ -7,7 +7,7 @@
     "test": "vitest",
     "build": "nest build",
     "dev": "nest start --watch --preserveWatchOutput",
-    "clean": "rm -rf build dist testdata",
+    "clean": "rm -rf build dist testdata node_modules/.tmp",
     "distclean": "rm -rf node_modules"
   },
   "dependencies": {

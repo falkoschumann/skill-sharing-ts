@@ -1,38 +1,26 @@
-// @ts-check
+// Copyright (c) 2025 Falko Schumann. All rights reserved. MIT license.
+
+import js from "@eslint/js";
 import globals from "globals";
 import headers from "eslint-plugin-headers";
-import js from "@eslint/js";
 import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
 import ts from "typescript-eslint";
 
 export default ts.config(
   {
-    ignores: [
-      "**/build",
-      "**/coverage",
-      "**/dist",
-      "eslint.config.js",
-      "vitest.config.ts",
-    ],
+    ignores: ["**/build", "**/coverage", "**/dist"],
   },
-  js.configs.recommended,
-  ...ts.configs.recommendedTypeChecked,
   {
+    extends: [js.configs.recommended, ...ts.configs.recommended],
+    files: ["*.cjs", "*.mjs", "*.js", "*.jsx", "*.ts", "*.tsx"],
     languageOptions: {
       ecmaVersion: 2022,
       globals: {
         ...globals.browser,
         ...globals.node,
       },
-      sourceType: "commonjs",
-      parserOptions: {
-        projectService: true,
-        tsconfigRootDir: import.meta.dirname,
-      },
     },
-  },
-  {
     plugins: {
       headers,
       "react-hooks": reactHooks,
@@ -44,10 +32,6 @@ export default ts.config(
         "warn",
         { allowConstantExport: true },
       ],
-      "@typescript-eslint/no-explicit-any": "off",
-      "@typescript-eslint/no-floating-promises": "warn",
-      "@typescript-eslint/no-unsafe-argument": "warn",
-      "no-unused-vars": "off",
       "@typescript-eslint/no-unused-vars": [
         "error",
         { argsIgnorePattern: "^_" },

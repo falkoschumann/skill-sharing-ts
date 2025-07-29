@@ -12,5 +12,5 @@ export default defineConfig({
     },
     hookTimeout: 30_000, // 30 seconds
   },
-  plugins: [swc.vite({ module: { type: "es6" } })],
+  plugins: [swc.vite()],
 });
