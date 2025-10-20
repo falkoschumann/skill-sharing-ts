@@ -12,7 +12,7 @@
     "distclean": "rm -rf node_modules"
   },
   "dependencies": {
-    "@reduxjs/toolkit": "2.9.0",
+    "@reduxjs/toolkit": "2.9.1",
     "@skill-sharing/shared": "0.1.0",
     "bootstrap": "5.3.8",
     "react": "19.2.0",
@@ -21,11 +21,11 @@
   },
   "devDependencies": {
     "@types/react": "19.2.2",
-    "@types/react-dom": "19.2.1",
+    "@types/react-dom": "19.2.2",
     "@vitejs/plugin-react": "5.0.4",
-    "jsdom": "27.0.0",
+    "jsdom": "27.0.1",
     "typescript": "5.9.3",
-    "vite": "7.1.9",
+    "vite": "7.1.10",
     "vitest": "3.2.4"
   }
 }
